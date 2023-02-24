@@ -1,0 +1,14 @@
+{
+  "name": "random-seat",
+  "version": "1.0.0",
+  "description": "Random Seat UI",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "liucang",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^23.1.0"
+  }
+}

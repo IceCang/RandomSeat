@@ -1,0 +1,145 @@
+body, html, div {
+    padding: 0;
+    margin: 0;
+    background: #07003D;
+    color: white;
+}
+
+body {
+    -webkit-app-region: no-drag;
+    -webkit-user-select: none;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+button {
+    -webkit-app-region: no-drag;
+    background: inherit;
+    border: none;
+}
+
+.titlebar {
+    -webkit-app-region: drag;
+    position: fixed;
+    width: 100%;
+    height: 28px;
+    background: #030018;
+    transition: 0.2s;
+    top: 0;
+    left: 0;
+    line-height: 28px;
+}
+
+.close {
+    font-family: "Material Icons";
+    height: 100%;
+    float: right;
+    display: inline-block;
+    text-align: center;
+    width: 48px;
+    transition: 0.2s;
+    -webkit-app-region: no-drag;
+    color: white;
+}
+
+.minimize {
+    font-family: "Material Icons";
+    height: 100%;
+    float: right;
+    display: inline-block;
+    text-align: center;
+    width: 48px;
+    transition: 0.2s;
+    -webkit-app-region: no-drag;
+    color: white;
+}
+
+.close:hover {
+    background: red;
+}
+
+.minimize:hover {
+    background: darkgrey;
+}
+
+.title {
+    padding-left: 12px;
+    font-family: "Consolas";
+}
+
+.main-container {
+	margin-top: 28px;
+	height: 630px;
+}
+
+.main-grid{
+	height: inherit;
+}
+
+.lft-p {
+	border-right: #57509D solid 2px;
+	text-align: center;
+}
+
+.tc {
+	text-align: center;
+}
+
+table {
+	margin: 0 auto;
+}
+
+table>tbody>tr>td {
+	text-align: center;
+	height: 56px;
+	width: 84px;
+	border: 1px solid #57509D;
+}
+
+.mt {
+	background: #37306D;
+	margin-top: 28px;
+}
+
+.result {
+	margin-top: 14px;
+}
+
+.control {
+	width: 100%;
+	height: 78%;
+}
+
+.log {
+	width: 100%;
+	height: 22%;
+}
+
+.log-box {
+	background: #37306D;
+	border: 1px solid #57509D;
+	width: 100%;
+	height: 100%;
+	vertical-align: top !important;
+	font-family: "Consolas";
+}
+
+input {
+    background: #37306D;
+    border: 1px solid #57509D;
+    font-family: "Consolas";
+}
+
+.control-box {
+    background: #37306D;
+    border: 1px solid #57509D;
+    height: 70px;
+    width: 100%;
+}
+
+.zz {
+	background: #97509D;
+}

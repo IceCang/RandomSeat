@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <link href="app.css" rel="stylesheet" type="text/css">
+    <link href="materialicon/material-icons.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/amazeui.min.css" rel="stylesheet" type="text/css">
+	<title>你shabi!</title>
+</head>
+<body>
+    <div class="titlebar">
+        <span class="title">Random Seat v1.0.0 by liucang</span>
+        <button class="close" id="close"></button>
+        <button class="minimize" id="minimize"></button>
+    </div>
+	<div class="main-container">
+    <div class="am-g main-grid">
+        <div class="am-u-md-8 main-grid lft-p">
+            <br>
+			<h1><center>--Result--</center></h1>
+			<span id="tb"></span>
+		</div>
+		<div class="am-u-md-4 main-grid">
+			<div class="log">
+				<textarea readonly class="log-box"></textarea>
+			</div>
+			<div class="control">
+                <br>
+				<label>第1～2排</label>&nbsp;<input id="ot"><br>
+                <label>第3～4排</label>&nbsp;<input id="tf"><br>
+                <label>第5～6排</label>&nbsp;<input id="fs"><br>
+                <label>组长</label>&nbsp;<input id="zz"><br>
+                <br>
+                <label>分开</label><textarea class="control-box" id="spl"></textarea><br>
+                <label>享受生活</label><textarea class="control-box" id="com"></textarea><br>
+                <br>
+                <div class="tc">
+                    <button type="button" class="am-btn am-btn-primary am-round" id="generate">开始生成！</button>
+                </div>
+
+			</div>
+		</div>
+    </div>
+</div>
+</body>
+<script src="./renderer.js"></script>
+</html>
