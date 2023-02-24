@@ -181,9 +181,7 @@ const checkValid = (dat) => {
 
 const generate = async () => {
 	let generation = 0;
-	const gen = document.getElementById('generate');
-	gen.className = 'am-btn am-btn-default am-round am-disabled';
-	gen.innerHTML = '生成中&nbsp;<i class="am-icon-circle-o-notch am-icon-spin"></i>';
+	await new Promise((resolve, reject) => {setTimeout(()=>{resolve();},500)})
 	const logBox = document.getElementsByClassName('log-box')[0];
 	logBox.innerText = logBox.innerText + '\nChecking format...';
 	var res = {
