@@ -90,7 +90,7 @@ const setTable = async (dat) => {
 }
 
 const shuffle = (arr) => {
-	let arr1 = new Array();
+	let arr1 = [];
 	for (let i = 0; i < arr.length; i++) arr1.push(arr[i]);
 	let result = [];
 	let random = 0;
@@ -143,6 +143,7 @@ const checkCom = (a, b, seat) => {
 			}
 		}
 	}
+	// To disable This, edit this to "return true;"
 	return false;
 }
 
