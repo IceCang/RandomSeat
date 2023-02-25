@@ -1,3 +1,9 @@
+document.getElementById('random seed').addEventListener('click', () => {
+	let tmp = Math.floor(Math.random() * 1e9);
+	Math.seedrandom(tmp);
+	document.getElementById('seed').value = tmp;
+	console.log(tmp); 
+})
 const initTable = async () => {
 	let result = document.createElement('table');
 	result.className = "tc mt";
@@ -90,7 +96,7 @@ const setTable = async (dat) => {
 }
 
 const shuffle = (arr) => {
-	let arr1 = new Array();
+	let arr1 = [];
 	for (let i = 0; i < arr.length; i++) arr1.push(arr[i]);
 	let result = [];
 	let random = 0;
@@ -143,6 +149,7 @@ const checkCom = (a, b, seat) => {
 			}
 		}
 	}
+	// To disable This, edit this to "return true;"
 	return false;
 }
 
@@ -152,7 +159,7 @@ const checkValid = (dat) => {
 	const com = dat.com;
 	const spl = dat.spl;
 	let finalzz = [0, 0, 0, 0, 0, 0, 0];
-	console.log(zz);
+	// console.log(zz);
 	for (let j = 0; j < 7; j++) {
 		let havezz = false;
 		for (let i = 0; i < 7; i++) {
@@ -166,7 +173,7 @@ const checkValid = (dat) => {
 		}
 		if (!havezz) return [false];
 	}
-	console.log(spl, com)
+	// console.log(spl, com)
 	for (let i = 0; i < spl.length; i++) {
 		if (!checkSpl(spl[i][0], spl[i][1], seat)) return [false];
 	}
@@ -180,9 +187,7 @@ const checkValid = (dat) => {
 
 const generate = async () => {
 	let generation = 0;
-	const gen = document.getElementById('generate');
-	gen.className = 'am-btn am-btn-default am-round am-disabled';
-	gen.innerHTML = '生成中&nbsp;<i class="am-icon-circle-o-notch am-icon-spin"></i>';
+	await new Promise((resolve, reject) => {setTimeout(()=>{resolve();},500)})
 	const logBox = document.getElementsByClassName('log-box')[0];
 	logBox.innerText = logBox.innerText + '\nChecking format...';
 	var res = {
@@ -201,6 +206,8 @@ const generate = async () => {
 		let spl = document.getElementById('spl').value.split('\n');
 		let com = document.getElementById('com').value.split('\n');
 		let zz = document.getElementById('zz').value.split(' ');
+		let seed = document.getElementById('seed').value;
+		Math.seedrandom(seed);
 		if (spl[0] != '') {
 			for (const idx in spl) {
 				spl[idx] = spl[idx].split(' ');
@@ -261,7 +268,7 @@ const generate = async () => {
 	var rescom = res.com;
 	var reszz = res.zz;
 	let seat = new Array(7).fill(0).map(_ => new Array(7));
-	console.log(res);
+	// console.log(res);
 	while (generation >= 0) {
 		ttf = [];
 		tfs = [];
