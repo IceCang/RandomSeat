@@ -143,3 +143,12 @@ input {
 .zz {
 	background: #97509D;
 }
+
+.lineinput {
+    width: 130px;
+}
+
+.lineinput + button {
+    height: 25px;
+    font-size: 0.7em;
+}
