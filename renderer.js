@@ -197,6 +197,7 @@ const checkValid = (dat) => {
 	return [true, finalzz];
 }
 
+let export_table = new Array(7).fill(0).map(_ => new Array(7));
 const generate = async () => {
 	let generation = 0;
 	await new Promise((resolve, reject) => {setTimeout(()=>{resolve();},500)})
@@ -325,6 +326,8 @@ const generate = async () => {
 		let ses = Math.ceil(Math.random() / 3 * 10) - 1;
 		seat[6][ses] = se[0];
 		seat[6][ses + 3] = se[1];
+		console.log(seat);
+		export_table = seat;
 		rs = checkValid({
 			'seat': seat,
 			'zz': reszz,
@@ -345,3 +348,22 @@ const generate = async () => {
 
 initTable()
 initLog()
+
+document.getElementById('export').addEventListener('click', () => {
+	console.log(export_table);
+	const newList = export_table.map(res => res.join(','))
+	const data = newList.join(',\n')
+	console.log(data);
+	// “\ufeff” BOM头
+	var uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(data);
+	var downloadLink = document.createElement("a");
+	downloadLink.href = uri;
+	var d = new Date();
+	var year = d.getYear() - 100 + 2000;
+	var month = d.getMonth() + 1;
+	var date = d.getDate();
+	downloadLink.download = (year + "-" + month + "-" + date + ".csv")||"temp.csv";
+	document.body.appendChild(downloadLink);
+	downloadLink.click();
+	document.body.removeChild(downloadLink);
+})
