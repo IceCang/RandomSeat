@@ -1,11 +1,15 @@
-body, html, div {
+body,
+html,
+div {
     padding: 0;
     margin: 0;
-    background: #07003D;
+    background: #07003D00;
     color: white;
+    font-family: "Consolas";
 }
 
 body {
+    background: linear-gradient(135deg, #003d38, #07003D) !important;
     -webkit-app-region: no-drag;
     -webkit-user-select: none;
     height: 100%;
@@ -67,70 +71,101 @@ button {
 
 .title {
     padding-left: 12px;
-    font-family: "Consolas";
 }
 
 .main-container {
-	margin-top: 28px;
-	height: 630px;
+    margin-top: 28px;
+    height: 630px;
 }
 
-.main-grid{
-	height: inherit;
+.main-grid {
+    height: inherit;
 }
 
 .lft-p {
-	border-right: #57509D solid 2px;
-	text-align: center;
+    /* border-right: #57509D solid 2px; */
+    text-align: center;
 }
 
 .tc {
-	text-align: center;
+    text-align: center;
+}
+
+.tl {
+    text-align: left;
+    width: fit-content;
+    margin: 0 auto;
 }
 
 table {
-	margin: 0 auto;
+    margin: 0 auto;
+    border-collapse: separate !important;
 }
 
 table>tbody>tr>td {
-	text-align: center;
-	height: 56px;
-	width: 84px;
-	border: 1px solid #57509D;
+    text-align: center;
+    height: 56px;
+    width: 84px;
+    /* border: 1px solid #57509D; */
 }
 
 .mt {
-	background: #37306D;
-	margin-top: 28px;
+    /* background: #37306D; */
+    margin-top: 28px;
 }
 
 .result {
-	margin-top: 14px;
+    margin-top: 14px;
 }
 
 .control {
-	width: 100%;
-	height: 78%;
+    width: 100%;
+    height: 78%;
 }
 
 .log {
-	width: 100%;
-	height: 22%;
+    width: 100%;
+    height: 7%;
 }
 
 .log-box {
-	background: #37306D;
-	border: 1px solid #57509D;
-	width: 100%;
-	height: 100%;
-	vertical-align: top !important;
-	font-family: "Consolas";
-}
-
-input {
     background: #37306D;
     border: 1px solid #57509D;
+    width: 100%;
+    height: 100%;
+    vertical-align: top !important;
     font-family: "Consolas";
+}
+
+input, textarea {
+    /* width: fill-available; */
+    width: min(75%, var(--expected-w));
+    /* width: var(--expected-w); */
+    max-width: 400px;
+    background: rgba(55, 48, 110, 0.8);
+    border: 1px solid #57509D;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: "Consolas";
+    outline:none; 
+    border: none;
+    transition: .5s ease;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    input, textarea {
+        width: 75% !important;
+    }
+}
+
+input:focus, textarea:focus{
+    /* background-color:#003d38; */
+    background-color: hsla(247, 39%, 50%, 0.8);
 }
 
 .control-box {
@@ -141,14 +176,39 @@ input {
 }
 
 .zz {
-	background: #97509D;
+    background: #97509D;
 }
 
-.lineinput {
+/* .lineinput {
     width: 130px;
-}
+} */
 
-.lineinput + button {
+.lineinput+button {
     height: 25px;
     font-size: 0.7em;
+}
+
+td {
+    width: 700px;
+    height: 375px;
+    /* display: inline-flex; */
+    align-items: center;
+    justify-content: center;
+    color: hsl(245, 32%, 90%);
+    background: rgba(87, 80, 157, 0.25);
+    /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 10px;
+    border: 1px solid rgba(87, 80, 157, 0.1);
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+    /* gap: 20px;
+    z-index: 1;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    background-color: rgba(87,80,157, 0.1);
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
+    border: 2px rgba(255,255,255,0.4) solid;
+    border-bottom: 2px rgba(40,40,40,0.35) solid;
+    border-right: 2px rgba(40,40,40,0.35) solid; */
 }
