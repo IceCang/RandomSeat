@@ -50,7 +50,7 @@ const initTable = async () => {
 
 const initLog = async () => {
 	logBox = document.getElementsByClassName('log-box')[0];
-	text = `Hello Random Seat v1.0.0 by liucang`;
+	text = `Hello Random Seat v1.0.0 by EDP2021C1 EEC`;
 	logBox.value = text;
 }
 
