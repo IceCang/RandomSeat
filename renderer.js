@@ -1,3 +1,9 @@
+document.getElementById('random seed').addEventListener('click', () => {
+	let tmp = Math.floor(Math.random() * 1e9);
+	Math.seedrandom(tmp);
+	document.getElementById('seed').value = tmp;
+	console.log(tmp); 
+})
 const initTable = async () => {
 	let result = document.createElement('table');
 	result.className = "tc mt";
@@ -153,7 +159,7 @@ const checkValid = (dat) => {
 	const com = dat.com;
 	const spl = dat.spl;
 	let finalzz = [0, 0, 0, 0, 0, 0, 0];
-	console.log(zz);
+	// console.log(zz);
 	for (let j = 0; j < 7; j++) {
 		let havezz = false;
 		for (let i = 0; i < 7; i++) {
@@ -167,7 +173,7 @@ const checkValid = (dat) => {
 		}
 		if (!havezz) return [false];
 	}
-	console.log(spl, com)
+	// console.log(spl, com)
 	for (let i = 0; i < spl.length; i++) {
 		if (!checkSpl(spl[i][0], spl[i][1], seat)) return [false];
 	}
@@ -200,6 +206,8 @@ const generate = async () => {
 		let spl = document.getElementById('spl').value.split('\n');
 		let com = document.getElementById('com').value.split('\n');
 		let zz = document.getElementById('zz').value.split(' ');
+		let seed = document.getElementById('seed').value;
+		Math.seedrandom(seed);
 		if (spl[0] != '') {
 			for (const idx in spl) {
 				spl[idx] = spl[idx].split(' ');
@@ -260,7 +268,7 @@ const generate = async () => {
 	var rescom = res.com;
 	var reszz = res.zz;
 	let seat = new Array(7).fill(0).map(_ => new Array(7));
-	console.log(res);
+	// console.log(res);
 	while (generation >= 0) {
 		ttf = [];
 		tfs = [];
