@@ -51,7 +51,7 @@ const initTable = async () => {
 const initLog = async () => {
 	logBox = document.getElementsByClassName('log-box')[0];
 	text = `Hello Random Seat v1.0.0 by liucang`;
-	logBox.innerText = text;
+	logBox.value = text;
 }
 
 const resetButton = () => {
@@ -206,7 +206,7 @@ const generate = async () => {
 	let generation = 0;
 	await new Promise((resolve, reject) => { setTimeout(() => { resolve(); }, 500) })
 	const logBox = document.getElementsByClassName('log-box')[0];
-	logBox.innerText = logBox.innerText + '\nChecking format...';
+	logBox.value += '\nChecking format...';
 	var res = {
 		'status': 1,
 		'ot': [],
@@ -266,7 +266,7 @@ const generate = async () => {
 		}
 	}
 	if (res.status === 0) {
-		logBox.innerText += '\nInvalid format!';
+		logBox.value += '\nInvalid format!';
 		failed();
 		return;
 	}
@@ -294,7 +294,7 @@ const generate = async () => {
 		tf = [];
 		fs = [];
 		generation++;
-		logBox.innerText += '\nRunning Generation ' + generation + '...';
+		logBox.value += '\nRunning Generation ' + generation + '...';
 
 		if (ot.length > 14) {
 			for (let i = 14; i < ot.length; i++) {
@@ -344,7 +344,7 @@ const generate = async () => {
 				'seat': seat,
 				'zz': rs[1]
 			})
-			logBox.innerText += 'Success Generation ' + generation + '!';
+			logBox.value += 'Success Generation ' + generation + '!';
 			success()
 			return
 		}

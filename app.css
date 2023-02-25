@@ -99,7 +99,7 @@ table {
 
 .log {
     width: 100%;
-    height: 7%;
+    height: 30%;
 }
 
 .log-box {
@@ -123,9 +123,12 @@ input, textarea {
     display: none;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1116px) {
     input, textarea {
         width: 75% !important;
+    }
+    .log {
+        height: 7%;
     }
 }
 
