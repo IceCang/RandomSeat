@@ -4,6 +4,18 @@ document.getElementById('random seed').addEventListener('click', () => {
 	document.getElementById('seed').value = tmp;
 	console.log(tmp); 
 })
+document.getElementById('fill1').addEventListener('click', () => {
+	document.getElementById('ot').value = "18 19 16 21 40 13 34 8 31 37 24 22 28 38 44";
+})
+document.getElementById('fill2').addEventListener('click', () => {
+	document.getElementById('tf').value = "17 10 12 27 35 36 3 1 6 20 14 7 42 15 41";
+})
+document.getElementById('fill3').addEventListener('click', () => {
+	document.getElementById('fs').value = "23 25 33 30 39 5 4 29 11 26 32 2 43 9";
+})
+document.getElementById('fill4').addEventListener('click', () => {
+	document.getElementById('zz').value = "3 17 19 29 31 37 38";
+})
 const initTable = async () => {
 	let result = document.createElement('table');
 	result.className = "tc mt";
