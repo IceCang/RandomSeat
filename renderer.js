@@ -16,6 +16,14 @@ document.getElementById('fill3').addEventListener('click', () => {
 document.getElementById('fill4').addEventListener('click', () => {
 	document.getElementById('zz').value = "3 17 19 29 31 37 38";
 })
+
+const logBox = document.getElementsByClassName('log-box')[0];
+
+const log = (a) => {
+	logBox.value += a + '\n';
+	logBox.scrollTop = logBox.scrollHeight;
+}
+
 const initTable = async () => {
 	let result = document.createElement('table');
 	result.className = "tc mt";
@@ -49,9 +57,7 @@ const initTable = async () => {
 }
 
 const initLog = async () => {
-	logBox = document.getElementsByClassName('log-box')[0];
-	text = `Hello Random Seat v1.0.0 by EDP2021C1 EEC`;
-	logBox.value = text;
+	log(`Hello Random Seat v1.0.0 by EDP2021C1 EEC`);
 }
 
 const resetButton = () => {
@@ -205,8 +211,7 @@ const checkValid = (dat) => {
 const generate = async () => {
 	let generation = 0;
 	await new Promise((resolve, reject) => { setTimeout(() => { resolve(); }, 500) })
-	const logBox = document.getElementsByClassName('log-box')[0];
-	logBox.value += '\nChecking format...';
+	log('Checking format...');
 	var res = {
 		'status': 1,
 		'ot': [],
@@ -266,7 +271,7 @@ const generate = async () => {
 		}
 	}
 	if (res.status === 0) {
-		logBox.value += '\nInvalid format!';
+		log('Invalid format!');
 		failed();
 		return;
 	}
@@ -294,7 +299,7 @@ const generate = async () => {
 		tf = [];
 		fs = [];
 		generation++;
-		logBox.value += '\nRunning Generation ' + generation + '...';
+		log('Running Generation ' + generation + '...');
 
 		if (ot.length > 14) {
 			for (let i = 14; i < ot.length; i++) {
@@ -344,7 +349,7 @@ const generate = async () => {
 				'seat': seat,
 				'zz': rs[1]
 			})
-			logBox.value += 'Success Generation ' + generation + '!';
+			log('Success Generation ' + generation + '!');
 			success()
 			return
 		}
