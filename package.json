@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
-    "node-gyp-build": "^4.6.0"
+    "node-gyp-build": "^4.6.0",
+    "update-electron-app": "^2.0.1"
   }
 }
