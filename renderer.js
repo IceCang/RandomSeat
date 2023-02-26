@@ -57,7 +57,7 @@ const initTable = async () => {
 }
 
 const initLog = async () => {
-	log(`Hello Random Seat v1.0.0 by EDP2021C1 EEC`);
+	log(`Hello Random Seat by EDP2021C1 EEC`);
 }
 
 const resetButton = () => {
