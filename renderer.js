@@ -2,7 +2,7 @@ document.getElementById('random seed').addEventListener('click', () => {
 	let tmp = Math.floor(Math.random() * 1e9);
 	Math.seedrandom(tmp);
 	document.getElementById('seed').value = tmp;
-	console.log(tmp);
+	// console.log(tmp);
 })
 document.getElementById('fill1').addEventListener('click', () => {
 	document.getElementById('ot').value = "18 19 16 21 40 13 34 8 31 37 24 22 28 38 44";
@@ -112,7 +112,7 @@ const setTable = async (dat) => {
 		insideHtml += btr;
 	}
 
-	for (let j = 0; j < 7; j++) export_table[0][j] = "第" + (j + 1) + "列";
+	for (let j = 0; j < 7; j++) export_table[0][j] = "第" + (7 - j) + "列";
 
 	insideHtml += btbody;
 	result.innerHTML = insideHtml;
@@ -185,16 +185,18 @@ const checkValid = (dat) => {
 	// console.log(zz);
 	for (let j = 0; j < 7; j++) {
 		let havezz = false;
+		let currZzList = new Array(0);
 		for (let i = 0; i < 7; i++) {
 			for (let k = 0; k < zz.length; k++) {
 				if (seat[i][j] === zz[k]) {
-					finalzz[j] = i;
+					currZzList.push(i);
 					havezz = true;
 					break;
 				}
 			}
 		}
 		if (!havezz) return [false];
+		finalzz[j] = currZzList[Math.floor(Math.random()*currZzList.length)];
 	}
 	// console.log(spl, com)
 	for (let i = 0; i < spl.length; i++) {
@@ -336,7 +338,7 @@ const generate = async () => {
 		seat[6][ses] = se[0];
 		seat[6][ses + 3] = se[1];
 		// console.log("sdfasdfasdf");
-		console.log(seat);
+		// console.log(seat);
 
 		rs = checkValid({
 			'seat': seat,
