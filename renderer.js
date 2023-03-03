@@ -196,7 +196,7 @@ const checkValid = (dat) => {
 			}
 		}
 		if (!havezz) return [false];
-		finalzz[j] = currZzList[Math.floor(Math.random()*currZzList.length)];
+		finalzz[j] = currZzList[Math.floor(Math.random() * currZzList.length)];
 	}
 	// console.log(spl, com)
 	for (let i = 0; i < spl.length; i++) {
@@ -291,17 +291,18 @@ const generate = async () => {
 	var resspl = res.spl;
 	var rescom = res.com;
 	var reszz = res.zz;
-	let seat = new Array(7).fill(0).map(_ => new Array(7));
+	// let seat = new Array(7).fill(0).map(_ => new Array(7));
+	let seat = new Array(7).fill(0).map(_ => new Array(7).fill('-'));
 	// console.log(res);
 	while (generation >= 0) {
-		ttf = [];
-		tfs = [];
-		se = [];
+		ttf.length = 0;
+		tfs.length = 0;
+		se.length = 0;
 		ot = shuffle(resot);
-		tf = [];
-		fs = [];
+		tf.length = 0;
+		fs.length = 0;
 		generation++;
-		log('Running Generation ' + generation + '...');
+		// log('Running Generation ' + generation + '...');
 
 		if (ot.length > 14) {
 			for (let i = 14; i < ot.length; i++) {
@@ -324,7 +325,10 @@ const generate = async () => {
 				se.push(fs[i]);
 			}
 		}
-		seat = new Array(7).fill(0).map(_ => new Array(7).fill('-'));
+		// seat = new Array(7).fill(0).map(_ => new Array(7).fill('-'));
+		for (let i = 0; i < 7; i++)
+			for (let j = 0; j < 7; j++)
+				seat[i][j] = '-';
 		for (let i = 0; i < 14; i++) {
 			seat[Math.floor(i / 7)][i % 7] = ot[i];
 		}
