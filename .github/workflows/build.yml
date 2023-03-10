@@ -6,8 +6,8 @@ permissions:
 # Workflow's trigger
 on:
   push:
-    branches:
-      main
+    tags:
+      - v*.*.*
 
 # Workflow's jobs
 jobs:
