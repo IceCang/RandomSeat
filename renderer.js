@@ -1,3 +1,14 @@
+fetch('./config.json')
+    .then((response) => response.json())
+    .then((json) => {
+		// console.log(json);
+		defaultot = json.ot;
+		defaulttf = json.tf;
+		defaultfs = json.fs;
+		defaultzz = json.zz;
+		defaultseparte = json.separate;
+		console.log(defaultseparte);
+	})
 document.getElementById('random seed').addEventListener('click', () => {
 	let tmp = Math.floor(Math.random() * 1e9);
 	Math.seedrandom(tmp);
@@ -5,16 +16,25 @@ document.getElementById('random seed').addEventListener('click', () => {
 	// console.log(tmp);
 })
 document.getElementById('fill1').addEventListener('click', () => {
-	document.getElementById('ot').value = "18 19 16 21 40 13 34 8 31 37 24 22 28 38 44";
+	document.getElementById('ot').value = defaultot;
 })
 document.getElementById('fill2').addEventListener('click', () => {
-	document.getElementById('tf').value = "17 10 12 27 35 36 3 1 6 20 14 7 42 15 41";
+	document.getElementById('tf').value = defaulttf;
 })
 document.getElementById('fill3').addEventListener('click', () => {
-	document.getElementById('fs').value = "23 25 33 30 39 5 4 29 11 26 32 2 43 9";
+	document.getElementById('fs').value = defaultfs;
 })
 document.getElementById('fill4').addEventListener('click', () => {
-	document.getElementById('zz').value = "2 4 10 16 19 20 23 24 25 26 27 28 29 30 31 32 33 34 38 39 43 44";
+	document.getElementById('zz').value = defaultzz;
+})
+document.getElementById('fill5').addEventListener('click', () => {
+	document.getElementById('spl').value = defaultseparte;
+})
+document.getElementById('hide').addEventListener('click', () => {
+	document.getElementById('spl').style = "display:none;";
+})
+document.getElementById('show').addEventListener('click', () => {
+	document.getElementById('spl').style = "";
 })
 
 const logBox = document.getElementsByClassName('log-box')[0];
