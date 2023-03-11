@@ -325,6 +325,18 @@ const generate = async () => {
 				se.push(fs[i]);
 			}
 		}
+		let tmppos = Math.ceil(Math.random() * 6);
+		let tmpnum = tf[0];
+		tf[0] = tf[tmppos];
+		tf[tmppos] = tmpnum;
+		tmppos = Math.ceil(Math.random() * 6);
+		tmpnum = fs[0];
+		fs[0] = fs[tmppos];
+		fs[tmppos] = tmpnum;
+		tmppos = Math.ceil(Math.random() * 6);
+		tmpnum = fs[1];
+		fs[1] = fs[tmppos];
+		fs[tmppos] = tmpnum;
 		// seat = new Array(7).fill(0).map(_ => new Array(7).fill('-'));
 		for (let i = 0; i < 7; i++)
 			for (let j = 0; j < 7; j++)
