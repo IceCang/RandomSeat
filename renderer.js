@@ -7,12 +7,26 @@ fetch('./config.json')
 		defaultfs = json.fs;
 		defaultzz = json.zz;
 		defaultseparte = json.separate;
-		console.log(defaultseparte);
+		// console.log(defaultseparte);
 	})
 document.getElementById('random seed').addEventListener('click', () => {
 	let tmp = Math.floor(Math.random() * 1e9);
 	Math.seedrandom(tmp);
 	document.getElementById('seed').value = tmp;
+	// console.log(tmp);
+})
+document.getElementById('set seed as date').addEventListener('click', () => {
+	var d = new Date();
+	var year = d.getYear() - 100 + 2000;
+	var month = d.getMonth() + 1;
+	var date = d.getDate();
+	y = year.toString();
+	m = month.toString();
+	d = date.toString();
+	for (let i = y.length + 1; i < 4; i++) y = '0' + y;
+	for (let i = m.length; i < 2; i++) m = '0' + m;
+	for (let i = d.length; i < 2; i++) d = '0' + d;
+	document.getElementById('seed').value = y + m + d;
 	// console.log(tmp);
 })
 document.getElementById('fill1').addEventListener('click', () => {
