@@ -1,3 +1,38 @@
+function upload() {
+	var inputObj=document.createElement('input')
+	inputObj.setAttribute('id','file');
+	inputObj.setAttribute('type','file');
+	inputObj.setAttribute('name','file');
+	inputObj.setAttribute("style",'visibility:hidden');
+	document.body.appendChild(inputObj);
+	inputObj.value;
+	inputObj.click();
+	console.log(inputObj);
+} 
+document.getElementById('chooseFile').addEventListener('click', () => {
+	upload();
+	document.querySelector('#file').addEventListener('change', e => {
+		for (let entry of e.target.files){
+			document.getElementById("fileNameInput").value=entry.name;
+			path = entry.path
+			console.log(entry);
+			console.log(entry.name, entry.webkitRelativePath);
+		};
+		let file = e.target.files[0];
+        let file_reader = new FileReader();
+        file_reader.onload = () => {
+            let fc = file_reader.result;
+			let fc_json = JSON.parse(fc);
+			defaultot = fc_json.ot;
+			defaulttf = fc_json.tf;
+			defaultfs = fc_json.fs;
+			defaultzz = fc_json.zz;
+			defaultseparte = fc_json.separate;
+            console.log(fc_json);
+        };
+        file_reader.readAsText(file, 'UTF-8');
+	});
+});
 fetch('./config.json')
     .then((response) => response.json())
     .then((json) => {
