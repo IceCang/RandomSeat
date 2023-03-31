@@ -449,7 +449,10 @@ initLog()
 document.getElementById('export').addEventListener('click', () => {
 	console.log(export_table);
 	const newList = export_table.map(res => res.join(','))
-	const data = newList.join('\n')
+	let data = newList.join('\n')
+	data += "\n";
+	data += "seed,";
+	data += document.getElementById('seed').value ;
 	console.log(data);
 	// “\ufeff” BOM头
 	var uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(data);
