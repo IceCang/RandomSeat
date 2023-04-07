@@ -1,6 +1,6 @@
 {
   "name": "random-seat",
-  "version": "1.1.1fix",
+  "version": "1.2.0",
   "description": "Random Seat UI",
   "main": "main.js",
   "scripts": {
@@ -30,5 +30,5 @@
     "node-gyp-build": "^4.6.0",
     "update-electron-app": "^2.0.1"
   },
-  "repository": "https://githubfast.com/edp2021c1/RandomSeat"
+  "repository": "https://github.com/edp2021c1/RandomSeat"
 }
