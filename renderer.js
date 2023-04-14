@@ -219,7 +219,7 @@ const checkSpl = (a, b, seat) => {
 						if (seat[i + 1][j-1] === a || seat[i + 1][j-1] === b) return false;
 					}
 					if (j!=6){
-						if (seat[i - 1][j+1] === a || seat[i - 1][j+1] === b) return false;
+						if (seat[i + 1][j+1] === a || seat[i + 1][j+1] === b) return false;
 					}
 				}
 				if (j != 0) {
