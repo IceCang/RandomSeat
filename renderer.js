@@ -206,9 +206,21 @@ const checkSpl = (a, b, seat) => {
 			if (seat[i][j] === a || seat[i][j] === b) {
 				if (i != 0) {
 					if (seat[i - 1][j] === a || seat[i - 1][j] === b) return false;
+					if (j!=0){
+						if (seat[i - 1][j-1] === a || seat[i - 1][j-1] === b) return false;
+					}
+					if (j!=6){
+						if (seat[i - 1][j+1] === a || seat[i - 1][j+1] === b) return false;
+					}
 				}
 				if (i != 6) {
 					if (seat[i + 1][j] === a || seat[i + 1][j] === b) return false;
+					if (j!=0){
+						if (seat[i + 1][j-1] === a || seat[i + 1][j-1] === b) return false;
+					}
+					if (j!=6){
+						if (seat[i - 1][j+1] === a || seat[i - 1][j+1] === b) return false;
+					}
 				}
 				if (j != 0) {
 					if (seat[i][j - 1] === a || seat[i][j - 1] === b) return false;
