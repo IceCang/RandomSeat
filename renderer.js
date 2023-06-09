@@ -293,7 +293,6 @@ const checkValid = (dat) => {
 
 const generate = async () => {
 	let generation = 0;
-	await new Promise((resolve, reject) => { setTimeout(() => { resolve(); }, 500) })
 	log('Checking format...');
 	var res = {
 		'status': 1,
