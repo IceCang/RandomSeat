@@ -1,3 +1,98 @@
+function upload() {
+	var inputObj=document.createElement('input')
+	inputObj.setAttribute('id','file');
+	inputObj.setAttribute('type','file');
+	inputObj.setAttribute('name','file');
+	inputObj.setAttribute("style",'visibility:hidden');
+	document.body.appendChild(inputObj);
+	inputObj.value;
+	inputObj.click();
+	console.log(inputObj);
+} 
+document.getElementById('chooseFile').addEventListener('click', () => {
+	upload();
+	document.querySelector('#file').addEventListener('change', e => {
+		for (let entry of e.target.files){
+			document.getElementById("fileNameInput").value=entry.name;
+			path = entry.path
+			console.log(entry);
+			console.log(entry.name, entry.webkitRelativePath);
+		};
+		let file = e.target.files[0];
+        let file_reader = new FileReader();
+        file_reader.onload = () => {
+            let fc = file_reader.result;
+			let fc_json = JSON.parse(fc);
+			defaultot = fc_json.ot;
+			defaulttf = fc_json.tf;
+			defaultfs = fc_json.fs;
+			defaultzz = fc_json.zz;
+			defaultseparte = fc_json.separate;
+            console.log(fc_json);
+        };
+        file_reader.readAsText(file, 'UTF-8');
+	});
+});
+fetch('./config.json')
+    .then((response) => response.json())
+    .then((json) => {
+		// console.log(json);
+		defaultot = json.ot;
+		defaulttf = json.tf;
+		defaultfs = json.fs;
+		defaultzz = json.zz;
+		defaultseparte = json.separate;
+		// console.log(defaultseparte);
+	})
+document.getElementById('random seed').addEventListener('click', () => {
+	let tmp = Math.floor(Math.random() * 1e9);
+	Math.seedrandom(tmp);
+	document.getElementById('seed').value = tmp;
+	// console.log(tmp);
+})
+document.getElementById('set seed as date').addEventListener('click', () => {
+	var d = new Date();
+	var year = d.getYear() - 100 + 2000;
+	var month = d.getMonth() + 1;
+	var date = d.getDate();
+	y = year.toString();
+	m = month.toString();
+	d = date.toString();
+	for (let i = y.length + 1; i < 4; i++) y = '0' + y;
+	for (let i = m.length; i < 2; i++) m = '0' + m;
+	for (let i = d.length; i < 2; i++) d = '0' + d;
+	document.getElementById('seed').value = y + m + d;
+	// console.log(tmp);
+})
+document.getElementById('fill1').addEventListener('click', () => {
+	document.getElementById('ot').value = defaultot;
+})
+document.getElementById('fill2').addEventListener('click', () => {
+	document.getElementById('tf').value = defaulttf;
+})
+document.getElementById('fill3').addEventListener('click', () => {
+	document.getElementById('fs').value = defaultfs;
+})
+document.getElementById('fill4').addEventListener('click', () => {
+	document.getElementById('zz').value = defaultzz;
+})
+document.getElementById('fill5').addEventListener('click', () => {
+	document.getElementById('spl').value = defaultseparte;
+})
+document.getElementById('hide').addEventListener('click', () => {
+	document.getElementById('spl').style = "display:none;";
+})
+document.getElementById('show').addEventListener('click', () => {
+	document.getElementById('spl').style = "";
+})
+
+const logBox = document.getElementsByClassName('log-box')[0];
+
+const log = (a) => {
+	logBox.value += a + '\n';
+	logBox.scrollTop = logBox.scrollHeight;
+}
+
 const initTable = async () => {
 	let result = document.createElement('table');
 	result.className = "tc mt";
@@ -31,9 +126,7 @@ const initTable = async () => {
 }
 
 const initLog = async () => {
-	logBox = document.getElementsByClassName('log-box')[0];
-	text = `Hello Random Seat v1.0.0 by liucang`;
-	logBox.innerText = text;
+	log(`Hello Random Seat by EDP2021C1 EEC`);
 }
 
 const resetButton = () => {
@@ -56,6 +149,7 @@ const success = () => {
 	setTimeout(resetButton, 1000);
 }
 
+let export_table = new Array(8).fill(0).map(_ => new Array(7));
 const setTable = async (dat) => {
 	let result = document.getElementById('res');
 	const tbody = "<tbody>";
@@ -75,8 +169,10 @@ const setTable = async (dat) => {
 		insideHtml += tr;
 		for (let j = 0; j < 7; j++) {
 			if (zz[j] === i) {
+				export_table[i + 1][j] = "*" + seat[i][j] + "*";
 				insideHtml += ztd;
 			} else {
+				export_table[i + 1][j] = seat[i][j];
 				insideHtml += td;
 			}
 			insideHtml += seat[i][j];
@@ -84,6 +180,8 @@ const setTable = async (dat) => {
 		}
 		insideHtml += btr;
 	}
+
+	for (let j = 0; j < 7; j++) export_table[0][j] = "第" + (7 - j) + "列";
 
 	insideHtml += btbody;
 	result.innerHTML = insideHtml;
@@ -108,9 +206,21 @@ const checkSpl = (a, b, seat) => {
 			if (seat[i][j] === a || seat[i][j] === b) {
 				if (i != 0) {
 					if (seat[i - 1][j] === a || seat[i - 1][j] === b) return false;
+					if (j!=0){
+						if (seat[i - 1][j-1] === a || seat[i - 1][j-1] === b) return false;
+					}
+					if (j!=6){
+						if (seat[i - 1][j+1] === a || seat[i - 1][j+1] === b) return false;
+					}
 				}
 				if (i != 6) {
 					if (seat[i + 1][j] === a || seat[i + 1][j] === b) return false;
+					if (j!=0){
+						if (seat[i + 1][j-1] === a || seat[i + 1][j-1] === b) return false;
+					}
+					if (j!=6){
+						if (seat[i + 1][j+1] === a || seat[i + 1][j+1] === b) return false;
+					}
 				}
 				if (j != 0) {
 					if (seat[i][j - 1] === a || seat[i][j - 1] === b) return false;
@@ -153,21 +263,23 @@ const checkValid = (dat) => {
 	const com = dat.com;
 	const spl = dat.spl;
 	let finalzz = [0, 0, 0, 0, 0, 0, 0];
-	console.log(zz);
+	// console.log(zz);
 	for (let j = 0; j < 7; j++) {
 		let havezz = false;
+		let currZzList = new Array(0);
 		for (let i = 0; i < 7; i++) {
 			for (let k = 0; k < zz.length; k++) {
 				if (seat[i][j] === zz[k]) {
-					finalzz[j] = i;
+					currZzList.push(i);
 					havezz = true;
 					break;
 				}
 			}
 		}
 		if (!havezz) return [false];
+		finalzz[j] = currZzList[Math.floor(Math.random() * currZzList.length)];
 	}
-	console.log(spl, com)
+	// console.log(spl, com)
 	for (let i = 0; i < spl.length; i++) {
 		if (!checkSpl(spl[i][0], spl[i][1], seat)) return [false];
 	}
@@ -181,9 +293,7 @@ const checkValid = (dat) => {
 
 const generate = async () => {
 	let generation = 0;
-	await new Promise((resolve, reject) => {setTimeout(()=>{resolve();},500)})
-	const logBox = document.getElementsByClassName('log-box')[0];
-	logBox.innerText = logBox.innerText + '\nChecking format...';
+	log('Checking format...');
 	var res = {
 		'status': 1,
 		'ot': [],
@@ -200,6 +310,8 @@ const generate = async () => {
 		let spl = document.getElementById('spl').value.split('\n');
 		let com = document.getElementById('com').value.split('\n');
 		let zz = document.getElementById('zz').value.split(' ');
+		let seed = document.getElementById('seed').value;
+		Math.seedrandom(seed);
 		if (spl[0] != '') {
 			for (const idx in spl) {
 				spl[idx] = spl[idx].split(' ');
@@ -241,7 +353,7 @@ const generate = async () => {
 		}
 	}
 	if (res.status === 0) {
-		logBox.innerText += '\nInvalid format!';
+		log('Invalid format!');
 		failed();
 		return;
 	}
@@ -259,17 +371,18 @@ const generate = async () => {
 	var resspl = res.spl;
 	var rescom = res.com;
 	var reszz = res.zz;
-	let seat = new Array(7).fill(0).map(_ => new Array(7));
-	console.log(res);
+	// let seat = new Array(7).fill(0).map(_ => new Array(7));
+	let seat = new Array(7).fill(0).map(_ => new Array(7).fill('-'));
+	// console.log(res);
 	while (generation >= 0) {
-		ttf = [];
-		tfs = [];
-		se = [];
+		ttf.length = 0;
+		tfs.length = 0;
+		se.length = 0;
 		ot = shuffle(resot);
-		tf = [];
-		fs = [];
+		tf.length = 0;
+		fs.length = 0;
 		generation++;
-		logBox.innerText += '\nRunning Generation ' + generation + '...';
+		// log('Running Generation ' + generation + '...');
 
 		if (ot.length > 14) {
 			for (let i = 14; i < ot.length; i++) {
@@ -292,7 +405,22 @@ const generate = async () => {
 				se.push(fs[i]);
 			}
 		}
-		seat = new Array(7).fill(0).map(_ => new Array(7).fill('-'));
+		let tmppos = Math.ceil(Math.random() * 6);
+		let tmpnum = tf[0];
+		tf[0] = tf[tmppos];
+		tf[tmppos] = tmpnum;
+		tmppos = Math.ceil(Math.random() * 6);
+		tmpnum = fs[0];
+		fs[0] = fs[tmppos];
+		fs[tmppos] = tmpnum;
+		tmppos = Math.ceil(Math.random() * 6);
+		tmpnum = fs[1];
+		fs[1] = fs[tmppos];
+		fs[tmppos] = tmpnum;
+		// seat = new Array(7).fill(0).map(_ => new Array(7).fill('-'));
+		for (let i = 0; i < 7; i++)
+			for (let j = 0; j < 7; j++)
+				seat[i][j] = '-';
 		for (let i = 0; i < 14; i++) {
 			seat[Math.floor(i / 7)][i % 7] = ot[i];
 		}
@@ -305,6 +433,9 @@ const generate = async () => {
 		let ses = Math.ceil(Math.random() / 3 * 10) - 1;
 		seat[6][ses] = se[0];
 		seat[6][ses + 3] = se[1];
+		// console.log("sdfasdfasdf");
+		// console.log(seat);
+
 		rs = checkValid({
 			'seat': seat,
 			'zz': reszz,
@@ -316,7 +447,7 @@ const generate = async () => {
 				'seat': seat,
 				'zz': rs[1]
 			})
-			logBox.innerText += 'Success Generation ' + generation + '!';
+			log('Success Generation ' + generation + '!');
 			success()
 			return
 		}
@@ -325,3 +456,25 @@ const generate = async () => {
 
 initTable()
 initLog()
+
+document.getElementById('export').addEventListener('click', () => {
+	console.log(export_table);
+	const newList = export_table.map(res => res.join(','))
+	let data = newList.join('\n')
+	data += "\n";
+	data += "seed,";
+	data += document.getElementById('seed').value ;
+	console.log(data);
+	// “\ufeff” BOM头
+	var uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(data);
+	var downloadLink = document.createElement("a");
+	downloadLink.href = uri;
+	var d = new Date();
+	var year = d.getYear() - 100 + 2000;
+	var month = d.getMonth() + 1;
+	var date = d.getDate();
+	downloadLink.download = (year + "-" + month + "-" + date + ".csv") || "temp.csv";
+	document.body.appendChild(downloadLink);
+	downloadLink.click();
+	document.body.removeChild(downloadLink);
+})
