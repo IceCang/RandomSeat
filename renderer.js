@@ -88,7 +88,7 @@ document.getElementById('show').addEventListener('click', () => {
 	document.getElementById('spl').style = "";
 })
 document.getElementById('fill5').addEventListener('click', () => {
-	document.getElementById('spl').innerText = defaultseparte;
+	document.getElementById('spl').value = defaultseparte;
 })
 
 const logBox = document.getElementsByClassName('log-box')[0];
