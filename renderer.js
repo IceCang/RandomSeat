@@ -184,7 +184,7 @@ const setTable = async (dat) => {
 		insideHtml += btr;
 	}
 
-	for (let j = 0; j < m; j++) export_table[0][j] = "第" + (7 - j) + "列";
+	for (let j = 0; j < m; j++) export_table[0][j] = "第" + (m - j) + "列";
 
 	insideHtml += btbody;
 	result.innerHTML = insideHtml;
@@ -359,7 +359,7 @@ const generate = async () => {
 	// console.log('init seat');
 	// console.log(seat);
 	// console.log('init seat done');
-
+	console.log(person);
 	while (generation >= 0){
 		generation++;
 		// log('Running Generation ' + generation + '...');
