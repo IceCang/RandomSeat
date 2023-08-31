@@ -58,28 +58,15 @@ fetch('./config.json')
 		for (const idx in person) {
 			person[idx] = parseInt(person[idx]);
 		}
-		// console.log('fetch config.json');
 		initTable(); //读完 n,m 才有值
 	})
-document.getElementById('random seed').addEventListener('click', () => {
+document.getElementById('random-seed').addEventListener('click', () => {
 	let tmp = Math.floor(Math.random() * 1e9);
 	Math.seedrandom(tmp);
 	document.getElementById('seed').value = tmp;
-	// console.log(tmp);
 })
-document.getElementById('set seed as date').addEventListener('click', () => {
-	var d = new Date();
-	var year = d.getYear() - 100 + 2000;
-	var month = d.getMonth() + 1;
-	var date = d.getDate();
-	y = year.toString();
-	m = month.toString();
-	d = date.toString();
-	for (let i = y.length + 1; i < 4; i++) y = '0' + y;
-	for (let i = m.length; i < 2; i++) m = '0' + m;
-	for (let i = d.length; i < 2; i++) d = '0' + d;
-	document.getElementById('seed').value = y + m + d;
-	// console.log(tmp);
+document.getElementById('set-seed-as-date').addEventListener('click', () => {
+	document.getElementById('seed').value = new Date().toISOString().split('T')[0].replaceAll('-','');
 })
 document.getElementById('hide').addEventListener('click', () => {
 	document.getElementById('spl').style = "display:none;";
@@ -295,9 +282,6 @@ const checkValid = (dat) => {
 	return [true, finalzz];
 }
 
-// let seat = new Array(7).fill().map(() => new Array(4).fill('-'));
-	// console.log('init seat');
-	// console.log(seat);
 const generate = async () => {
 	let generation = 0;
 	log('Checking format...');
@@ -355,17 +339,9 @@ const generate = async () => {
 	var rescom = res.com;
 	let vis = [];
 	let seat = new Array(n).fill().map(() => new Array(m).fill('-'));
-	// const initialize2DArray = (w, h, val = null) =>
-	// 	Array.from({ length: h }).map(() => Array.from({ length: w }).fill(val));
-	// let seat = initialize2DArray(n, m, '-'); // [[0, 0], [0, 0]]
-
-	// console.log('init seat');
-	// console.log(seat);
-	// console.log('init seat done');
 	console.log(person);
 	while (generation >= 0){
 		generation++;
-		// log('Running Generation ' + generation + '...');
 		for (let now_row = 0; now_row < n; now_row += K){
 			tmp.length = 0;
 			if (n - now_row - K == 1){
@@ -433,7 +409,6 @@ const generate = async () => {
 			success();
 			return;
 		}
-		// if (generation == 5) return;
 	}
 }
 
@@ -447,7 +422,6 @@ document.getElementById('export').addEventListener('click', () => {
 	data += "seed,";
 	data += document.getElementById('seed').value ;
 	console.log(data);
-	// “\ufeff” BOM头
 	var uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(data);
 	var downloadLink = document.createElement("a");
 	downloadLink.href = uri;
