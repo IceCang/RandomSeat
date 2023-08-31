@@ -1,3 +1,4 @@
+let n, m, K, last_row_pos_can_be_choosed, person;
 function upload() {
 	var inputObj=document.createElement('input')
 	inputObj.setAttribute('id','file');
@@ -23,12 +24,19 @@ document.getElementById('chooseFile').addEventListener('click', () => {
         file_reader.onload = () => {
             let fc = file_reader.result;
 			let fc_json = JSON.parse(fc);
-			defaultot = fc_json.ot;
-			defaulttf = fc_json.tf;
-			defaultfs = fc_json.fs;
-			defaultzz = fc_json.zz;
+			n = parseInt(fc_json.rows); //行数
+			m = parseInt(fc_json.columns); //列数
+			K = parseInt(fc_json.random_between_rows); //每多少行之间打乱
+			last_row_pos_can_be_choosed = fc_json.last_row_pos_can_be_choosed.split(' '); //最后一行可选位置
+			person = fc_json.person_sort_by_height.split(' ');
+			zz = fc_json.zz.split(' ');
 			defaultseparte = fc_json.separate;
-            console.log(fc_json);
+			for (const idx in zz) {
+				zz[idx] = parseInt(zz[idx]);
+			}
+			for (const idx in person) {
+				person[idx] = parseInt(person[idx]);
+			}
         };
         file_reader.readAsText(file, 'UTF-8');
 	});
@@ -37,12 +45,21 @@ fetch('./config.json')
     .then((response) => response.json())
     .then((json) => {
 		// console.log(json);
-		defaultot = json.ot;
-		defaulttf = json.tf;
-		defaultfs = json.fs;
-		defaultzz = json.zz;
+		n = parseInt(json.rows); //行数
+		m = parseInt(json.columns); //列数
+		K = parseInt(json.random_between_rows); //每多少行之间打乱
+		last_row_pos_can_be_choosed = json.last_row_pos_can_be_choosed.split(' '); //最后一行可选位置
+		person = json.person_sort_by_height.split(' ');
+		zz = json.zz.split(' ');
 		defaultseparte = json.separate;
-		// console.log(defaultseparte);
+		for (const idx in zz) {
+			zz[idx] = parseInt(zz[idx]);
+		}
+		for (const idx in person) {
+			person[idx] = parseInt(person[idx]);
+		}
+		// console.log('fetch config.json');
+		initTable(); //读完 n,m 才有值
 	})
 document.getElementById('random seed').addEventListener('click', () => {
 	let tmp = Math.floor(Math.random() * 1e9);
@@ -64,21 +81,6 @@ document.getElementById('set seed as date').addEventListener('click', () => {
 	document.getElementById('seed').value = y + m + d;
 	// console.log(tmp);
 })
-document.getElementById('fill1').addEventListener('click', () => {
-	document.getElementById('ot').value = defaultot;
-})
-document.getElementById('fill2').addEventListener('click', () => {
-	document.getElementById('tf').value = defaulttf;
-})
-document.getElementById('fill3').addEventListener('click', () => {
-	document.getElementById('fs').value = defaultfs;
-})
-document.getElementById('fill4').addEventListener('click', () => {
-	document.getElementById('zz').value = defaultzz;
-})
-document.getElementById('fill5').addEventListener('click', () => {
-	document.getElementById('spl').value = defaultseparte;
-})
 document.getElementById('hide').addEventListener('click', () => {
 	document.getElementById('spl').style = "display:none;";
 })
@@ -90,7 +92,7 @@ const logBox = document.getElementsByClassName('log-box')[0];
 
 const log = (a) => {
 	logBox.value += a + '\n';
-	logBox.scrollTop = logBox.scrollHeight;
+	logBox.scrollTop = logBox.scrollheight;
 }
 
 const initTable = async () => {
@@ -105,9 +107,9 @@ const initTable = async () => {
 	const btd = "</td>";
 	const nothing = "-";
 	let insideHtml = tbody;
-	for (let _ = 0; _ < 7; _++) {
+	for (let _ = 0; _ < n; _++) {
 		insideHtml += tr;
-		for (let __ = 0; __ < 7; __++) {
+		for (let __ = 0; __ < m; __++) {
 			insideHtml += td + nothing + btd;
 		}
 		insideHtml += btr;
@@ -149,8 +151,8 @@ const success = () => {
 	setTimeout(resetButton, 1000);
 }
 
-let export_table = new Array(8).fill(0).map(_ => new Array(7));
 const setTable = async (dat) => {
+	let export_table = new Array(n + 1).fill(0).map(_ => new Array(m));
 	let result = document.getElementById('res');
 	const tbody = "<tbody>";
 	const tr = "<tr>";
@@ -164,10 +166,11 @@ const setTable = async (dat) => {
 
 	const zz = dat.zz;
 	const seat = dat.seat;
-
-	for (let i = 0; i < 7; i++) {
+	console.log('seat in setTable function const');
+	console.log(seat);
+	for (let i = 0; i < n; i++) {
 		insideHtml += tr;
-		for (let j = 0; j < 7; j++) {
+		for (let j = 0; j < m; j++) {
 			if (zz[j] === i) {
 				export_table[i + 1][j] = "*" + seat[i][j] + "*";
 				insideHtml += ztd;
@@ -181,7 +184,7 @@ const setTable = async (dat) => {
 		insideHtml += btr;
 	}
 
-	for (let j = 0; j < 7; j++) export_table[0][j] = "第" + (7 - j) + "列";
+	for (let j = 0; j < m; j++) export_table[0][j] = "第" + (7 - j) + "列";
 
 	insideHtml += btbody;
 	result.innerHTML = insideHtml;
@@ -201,8 +204,8 @@ const shuffle = (arr) => {
 }
 
 const checkSpl = (a, b, seat) => {
-	for (let i = 0; i < 7; i++) {
-		for (let j = 0; j < 7; j++) {
+	for (let i = 0; i < n; i++) {
+		for (let j = 0; j < m; j++) {
 			if (seat[i][j] === a || seat[i][j] === b) {
 				if (i != 0) {
 					if (seat[i - 1][j] === a || seat[i - 1][j] === b) return false;
@@ -235,8 +238,8 @@ const checkSpl = (a, b, seat) => {
 }
 
 const checkCom = (a, b, seat) => {
-	for (let i = 0; i < 7; i++) {
-		for (let j = 0; j < 7; j++) {
+	for (let i = 0; i < n; i++) {
+		for (let j = 0; j < m; j++) {
 			if (seat[i][j] === a || seat[i][j] === b) {
 				if (i != 0) {
 					if (seat[i - 1][j] === a || seat[i - 1][j] === b) return true;
@@ -263,11 +266,10 @@ const checkValid = (dat) => {
 	const com = dat.com;
 	const spl = dat.spl;
 	let finalzz = [0, 0, 0, 0, 0, 0, 0];
-	// console.log(zz);
-	for (let j = 0; j < 7; j++) {
+	for (let j = 0; j < m; j++) {
 		let havezz = false;
 		let currZzList = new Array(0);
-		for (let i = 0; i < 7; i++) {
+		for (let i = 0; i < n; i++){
 			for (let k = 0; k < zz.length; k++) {
 				if (seat[i][j] === zz[k]) {
 					currZzList.push(i);
@@ -279,7 +281,6 @@ const checkValid = (dat) => {
 		if (!havezz) return [false];
 		finalzz[j] = currZzList[Math.floor(Math.random() * currZzList.length)];
 	}
-	// console.log(spl, com)
 	for (let i = 0; i < spl.length; i++) {
 		if (!checkSpl(spl[i][0], spl[i][1], seat)) return [false];
 	}
@@ -291,25 +292,27 @@ const checkValid = (dat) => {
 	return [true, finalzz];
 }
 
+// let seat = new Array(7).fill().map(() => new Array(4).fill('-'));
+	// console.log('init seat');
+	// console.log(seat);
 const generate = async () => {
 	let generation = 0;
 	log('Checking format...');
 	var res = {
 		'status': 1,
-		'ot': [],
-		'tf': [],
-		'fs': [],
+		'rows': 0,
+		'columns': 0,
+		'random_between_rows': 0,
+		'last_row_pos_can_be_choosed': [],
+		'person_sort_by_height': [],
 		'spl': [],
 		'com': [],
-		'zz': []
+		'zz': [],
+		'separate': []
 	};
 	try {
-		let ot = document.getElementById('ot').value.split(' ');
-		let tf = document.getElementById('tf').value.split(' ');
-		let fs = document.getElementById('fs').value.split(' ');
 		let spl = document.getElementById('spl').value.split('\n');
 		let com = document.getElementById('com').value.split('\n');
-		let zz = document.getElementById('zz').value.split(' ');
 		let seed = document.getElementById('seed').value;
 		Math.seedrandom(seed);
 		if (spl[0] != '') {
@@ -326,26 +329,10 @@ const generate = async () => {
 				com[idx][1] = parseInt(com[idx][1]);
 			}
 		} else com = [];
-		for (const idx in ot) {
-			ot[idx] = parseInt(ot[idx]);
-		}
-		for (const idx in tf) {
-			tf[idx] = parseInt(tf[idx]);
-		}
-		for (const idx in fs) {
-			fs[idx] = parseInt(fs[idx]);
-		}
-		for (const idx in zz) {
-			zz[idx] = parseInt(zz[idx]);
-		}
 		res = {
 			'status': 1,
-			'ot': ot,
-			'tf': tf,
-			'fs': fs,
 			'spl': spl,
-			'com': com,
-			'zz': zz
+			'com': com
 		}
 	} catch {
 		res = {
@@ -357,88 +344,80 @@ const generate = async () => {
 		failed();
 		return;
 	}
-	let ttf = [];
-	let tfs = [];
-	let se = [];
-	let ot = [];
-	let tf = [];
-	let fs = [];
-	let atf = [];
-	let afs = [];
-	var resot = res.ot;
-	var restf = res.tf;
-	var resfs = res.fs;
+	let ans = [];
+	let tmp = [];
+	let last_row = [];
+	let pos = [];
 	var resspl = res.spl;
 	var rescom = res.com;
-	var reszz = res.zz;
-	// let seat = new Array(7).fill(0).map(_ => new Array(7));
-	let seat = new Array(7).fill(0).map(_ => new Array(7).fill('-'));
-	// console.log(res);
-	while (generation >= 0) {
-		ttf.length = 0;
-		tfs.length = 0;
-		se.length = 0;
-		ot = shuffle(resot);
-		tf.length = 0;
-		fs.length = 0;
+	let vis = [];
+	let seat = new Array(n).fill().map(() => new Array(m).fill('-'));
+	// const initialize2DArray = (w, h, val = null) =>
+	// 	Array.from({ length: h }).map(() => Array.from({ length: w }).fill(val));
+	// let seat = initialize2DArray(n, m, '-'); // [[0, 0], [0, 0]]
+
+	// console.log('init seat');
+	// console.log(seat);
+	// console.log('init seat done');
+
+	while (generation >= 0){
 		generation++;
 		// log('Running Generation ' + generation + '...');
-
-		if (ot.length > 14) {
-			for (let i = 14; i < ot.length; i++) {
-				ttf.push(ot[i]);
-				tf.push(ot[i]);
+		for (let now_row = 0; now_row < n; now_row += K){
+			tmp.length = 0;
+			if (n - now_row - K == 1){
+				for (let i = 0; i < person.length - now_row * m; i++){
+					tmp[i] = person[i + now_row * m];
+				}
+				tmp = shuffle(tmp);
+				for (let i = 0; i < K * m; i++){
+					ans[i + now_row * m] = tmp[i];
+				}
+				for (let i = 0; i < person.length - (now_row + K) * m; i++){
+					last_row[i] = tmp[i + K * m];
+				}
+				break;
+			}else{
+				for (let i = 0; i < K * m; i++){
+					tmp[i] = person[i + now_row * m];
+				}
+				tmp = shuffle(tmp);
+				for (let i = 0; i < K * m; i++){
+					ans[i + now_row * m] = tmp[i];
+				}
 			}
 		}
-		atf = shuffle(restf);
-		for (let i = 0; i < atf.length; i++) tf.push(atf[i]);
-		if (tf.length > 14) {
-			for (let i = 14; i < tf.length; i++) {
-				tfs.push(tf[i]);
-				fs.push(tf[i]);
-			}
-		}
-		afs = shuffle(resfs);
-		for (let i = 0; i < afs.length; i++) fs.push(afs[i]);
-		if (fs.length > 14) {
-			for (let i = 14; i < fs.length; i++) {
-				se.push(fs[i]);
-			}
-		}
-		let tmppos = Math.ceil(Math.random() * 6);
-		let tmpnum = tf[0];
-		tf[0] = tf[tmppos];
-		tf[tmppos] = tmpnum;
-		tmppos = Math.ceil(Math.random() * 6);
-		tmpnum = fs[0];
-		fs[0] = fs[tmppos];
-		fs[tmppos] = tmpnum;
-		tmppos = Math.ceil(Math.random() * 6);
-		tmpnum = fs[1];
-		fs[1] = fs[tmppos];
-		fs[tmppos] = tmpnum;
-		// seat = new Array(7).fill(0).map(_ => new Array(7).fill('-'));
-		for (let i = 0; i < 7; i++)
-			for (let j = 0; j < 7; j++)
+		for (let i = 0; i < n; i++)
+			for (let j = 0; j < m; j++)
 				seat[i][j] = '-';
-		for (let i = 0; i < 14; i++) {
-			seat[Math.floor(i / 7)][i % 7] = ot[i];
+		for (let i = 0; i < n - 1; i++)
+			for (let j = 0; j < m; j++)
+				seat[i][j] = ans[i * m + j];
+		console.log("ans", ans);
+		console.log("seat", seat);
+		if (last_row.length > last_row_pos_can_be_choosed.length){
+			log("生成失败，最后一行人数大于可选择位置数！");
+			failed();
+			return;
 		}
-		for (let i = 0; i < 14; i++) {
-			seat[2 + Math.floor(i / 7)][i % 7] = tf[i];
+		for (let i = 0; i < m; i++){
+			vis[i] = 0;
+			pos[i] = 0;
 		}
-		for (let i = 0; i < 14; i++) {
-			seat[4 + Math.floor(i / 7)][i % 7] = fs[i];
+		for (let i = 0; i < m; i++){
+			let rand_num = Math.floor(Math.random() * last_row_pos_can_be_choosed.length);
+			while (vis[rand_num]){
+				rand_num = Math.floor(Math.random() * last_row_pos_can_be_choosed.length)
+			}
+			vis[rand_num] = 1;
+			pos[i] = rand_num;
 		}
-		let ses = Math.ceil(Math.random() / 3 * 10) - 1;
-		seat[6][ses] = se[0];
-		seat[6][ses + 3] = se[1];
-		// console.log("sdfasdfasdf");
-		// console.log(seat);
-
+		for (let i = 0; i < last_row.length; i++){
+			seat[n - 1][pos[i]] = last_row[i]; 
+		}
 		rs = checkValid({
 			'seat': seat,
-			'zz': reszz,
+			'zz': zz,
 			'com': rescom,
 			'spl': resspl
 		});
@@ -448,13 +427,13 @@ const generate = async () => {
 				'zz': rs[1]
 			})
 			log('Success Generation ' + generation + '!');
-			success()
-			return
+			success();
+			return;
 		}
+		// if (generation == 5) return;
 	}
 }
 
-initTable()
 initLog()
 
 document.getElementById('export').addEventListener('click', () => {
