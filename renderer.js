@@ -1,4 +1,4 @@
-let n, m, K, last_row_pos_can_be_choosed, person;
+let n, m, K, last_row_pos_can_be_choosed, person, defaultseparte;
 function upload() {
 	var inputObj=document.createElement('input')
 	inputObj.setAttribute('id','file');
@@ -86,6 +86,9 @@ document.getElementById('hide').addEventListener('click', () => {
 })
 document.getElementById('show').addEventListener('click', () => {
 	document.getElementById('spl').style = "";
+})
+document.getElementById('fill5').addEventListener('click', () => {
+	document.getElementById('spl').innerText = defaultseparte;
 })
 
 const logBox = document.getElementsByClassName('log-box')[0];
