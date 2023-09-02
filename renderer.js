@@ -8,37 +8,42 @@ function upload() {
 	document.body.appendChild(inputObj);
 	inputObj.value;
 	inputObj.click();
-	console.log(inputObj);
+	// console.log(inputObj);
 } 
 document.getElementById('chooseFile').addEventListener('click', () => {
 	upload();
 	document.querySelector('#file').addEventListener('change', e => {
 		for (let entry of e.target.files){
 			document.getElementById("fileNameInput").value=entry.name;
-			path = entry.path
-			console.log(entry);
-			console.log(entry.name, entry.webkitRelativePath);
+			// path = entry.path;
+			// console.log(entry);
+			// console.log(entry.name, entry.webkitRelativePath);
 		};
 		let file = e.target.files[0];
-        let file_reader = new FileReader();
-        file_reader.onload = () => {
-            let fc = file_reader.result;
-			let fc_json = JSON.parse(fc);
-			n = parseInt(fc_json.rows); //行数
-			m = parseInt(fc_json.columns); //列数
-			K = parseInt(fc_json.random_between_rows); //每多少行之间打乱
-			last_row_pos_can_be_choosed = fc_json.last_row_pos_can_be_choosed.split(' '); //最后一行可选位置
-			person = fc_json.person_sort_by_height.split(' ');
-			zz = fc_json.zz.split(' ');
-			defaultseparte = fc_json.separate;
-			for (const idx in zz) {
-				zz[idx] = parseInt(zz[idx]);
+		let file_reader = new FileReader();
+		file_reader.onload = () => {
+			try {
+				let fc = file_reader.result;
+				let fc_json = JSON.parse(fc);
+				n = parseInt(fc_json.rows); //行数
+				m = parseInt(fc_json.columns); //列数
+				K = parseInt(fc_json.random_between_rows); //每多少行之间打乱
+				last_row_pos_can_be_choosed = fc_json.last_row_pos_can_be_choosed.split(' '); //最后一行可选位置
+				person = fc_json.person_sort_by_height.split(' ');
+				zz = fc_json.zz.split(' ');
+				defaultseparte = fc_json.separate;
+				for (const idx in zz) {
+					zz[idx] = parseInt(zz[idx]);
+				}
+				for (const idx in person) {
+					person[idx] = parseInt(person[idx]);
+				}
+			} catch (error) {
+				console.log(error);
+				log("config文件格式错误,无法读取!");
 			}
-			for (const idx in person) {
-				person[idx] = parseInt(person[idx]);
-			}
-        };
-        file_reader.readAsText(file, 'UTF-8');
+		};
+		file_reader.readAsText(file, 'UTF-8');
 	});
 });
 fetch('./config.json')
@@ -59,6 +64,7 @@ fetch('./config.json')
 			person[idx] = parseInt(person[idx]);
 		}
 		initTable(); //读完 n,m 才有值
+		export_table = new Array(n + 1).fill(0).map(_ => new Array(m));
 	})
 document.getElementById('random-seed').addEventListener('click', () => {
 	let tmp = Math.floor(Math.random() * 1e9);
@@ -142,7 +148,6 @@ const success = () => {
 }
 
 const setTable = async (dat) => {
-	let export_table = new Array(n + 1).fill(0).map(_ => new Array(m));
 	let result = document.getElementById('res');
 	const tbody = "<tbody>";
 	const tr = "<tr>";
@@ -156,8 +161,8 @@ const setTable = async (dat) => {
 
 	const zz = dat.zz;
 	const seat = dat.seat;
-	console.log('seat in setTable function const');
-	console.log(seat);
+	// console.log('seat in setTable function const');
+	// console.log(seat);
 	for (let i = 0; i < n; i++) {
 		insideHtml += tr;
 		for (let j = 0; j < m; j++) {
@@ -339,7 +344,7 @@ const generate = async () => {
 	var rescom = res.com;
 	let vis = [];
 	let seat = new Array(n).fill().map(() => new Array(m).fill('-'));
-	console.log(person);
+	// console.log(person);
 	while (generation >= 0){
 		generation++;
 		for (let now_row = 0; now_row < n; now_row += K){
@@ -372,8 +377,6 @@ const generate = async () => {
 		for (let i = 0; i < n - 1; i++)
 			for (let j = 0; j < m; j++)
 				seat[i][j] = ans[i * m + j];
-		console.log("ans", ans);
-		console.log("seat", seat);
 		if (last_row.length > last_row_pos_can_be_choosed.length){
 			log("生成失败，最后一行人数大于可选择位置数！");
 			failed();
@@ -415,7 +418,7 @@ const generate = async () => {
 initLog()
 
 document.getElementById('export').addEventListener('click', () => {
-	console.log(export_table);
+	// console.log(export_table);
 	const newList = export_table.map(res => res.join(','))
 	let data = newList.join('\n')
 	data += "\n";
