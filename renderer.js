@@ -1,4 +1,4 @@
-let n, m, K, last_row_pos_can_be_choosed, person, defaultseparte;
+let n, m, K, last_row_pos_can_be_choosed, person, spl;
 function upload() {
 	var inputObj=document.createElement('input')
 	inputObj.setAttribute('id','file');
@@ -31,13 +31,20 @@ document.getElementById('chooseFile').addEventListener('click', () => {
 				last_row_pos_can_be_choosed = fc_json.last_row_pos_can_be_choosed.split(' '); //最后一行可选位置
 				person = fc_json.person_sort_by_height.split(' ');
 				zz = fc_json.zz.split(' ');
-				defaultseparte = fc_json.separate;
+				spl = fc_json.separate.split('\n');
 				for (const idx in zz) {
 					zz[idx] = parseInt(zz[idx]);
 				}
 				for (const idx in person) {
 					person[idx] = parseInt(person[idx]);
 				}
+				if (spl[0] != '') {
+					for (const idx in spl) {
+						spl[idx] = spl[idx].split(' ');
+						spl[idx][0] = parseInt(spl[idx][0]);
+						spl[idx][1] = parseInt(spl[idx][1]);
+					}
+				} else spl = [];
 			} catch (error) {
 				console.log(error);
 				log("config文件格式错误,无法读取!");
@@ -56,13 +63,20 @@ fetch('./config.json')
 		last_row_pos_can_be_choosed = json.last_row_pos_can_be_choosed.split(' '); //最后一行可选位置
 		person = json.person_sort_by_height.split(' ');
 		zz = json.zz.split(' ');
-		defaultseparte = json.separate;
+		spl = json.separate.split('\n');
 		for (const idx in zz) {
 			zz[idx] = parseInt(zz[idx]);
 		}
 		for (const idx in person) {
 			person[idx] = parseInt(person[idx]);
 		}
+		if (spl[0] != '') {
+			for (const idx in spl) {
+				spl[idx] = spl[idx].split(' ');
+				spl[idx][0] = parseInt(spl[idx][0]);
+				spl[idx][1] = parseInt(spl[idx][1]);
+			}
+		} else spl = [];
 		initTable(); //读完 n,m 才有值
 		export_table = new Array(n + 1).fill(0).map(_ => new Array(m));
 	})
@@ -71,17 +85,8 @@ document.getElementById('random-seed').addEventListener('click', () => {
 	Math.seedrandom(tmp);
 	document.getElementById('seed').value = tmp;
 })
-document.getElementById('set-seed-as-date').addEventListener('click', () => {
-	document.getElementById('seed').value = new Date().toISOString().split('T')[0].replaceAll('-','');
-})
-document.getElementById('hide').addEventListener('click', () => {
-	document.getElementById('spl').style = "display:none;";
-})
-document.getElementById('show').addEventListener('click', () => {
-	document.getElementById('spl').style = "";
-})
-document.getElementById('fill5').addEventListener('click', () => {
-	document.getElementById('spl').value = defaultseparte;
+document.getElementById('set-seed-use-time').addEventListener('click', () => {
+	document.getElementById('seed').value = new Date().toISOString().replace('T', ' ').replace('Z','');
 })
 
 const logBox = document.getElementsByClassName('log-box')[0];
@@ -252,13 +257,13 @@ const checkCom = (a, b, seat) => {
 		}
 	}
 	// To disable This, edit this to "return true;"
-	return false;
+	return true;
 }
 
 const checkValid = (dat) => {
 	const seat = dat.seat;
 	const zz = dat.zz;
-	const com = dat.com;
+	// const com = dat.com;
 	const spl = dat.spl;
 	let finalzz = new Array(m).fill(0);
 	for (let j = 0; j < m; j++) {
@@ -280,9 +285,9 @@ const checkValid = (dat) => {
 		if (!checkSpl(spl[i][0], spl[i][1], seat)) return [false];
 	}
 
-	for (let i = 0; i < com.length; i++) {
-		if (!checkCom(com[i][0], com[i][1], seat)) return [false];
-	}
+	// for (let i = 0; i < com.length; i++) {
+	// 	if (!checkCom(com[i][0], com[i][1], seat)) return [false];
+	// }
 
 	return [true, finalzz];
 }
@@ -303,28 +308,19 @@ const generate = async () => {
 		'separate': []
 	};
 	try {
-		let spl = document.getElementById('spl').value.split('\n');
-		let com = document.getElementById('com').value.split('\n');
+		// let com = document.getElementById('com').value.split('\n');
 		let seed = document.getElementById('seed').value;
 		Math.seedrandom(seed);
-		if (spl[0] != '') {
-			for (const idx in spl) {
-				spl[idx] = spl[idx].split(' ');
-				spl[idx][0] = parseInt(spl[idx][0]);
-				spl[idx][1] = parseInt(spl[idx][1]);
-			}
-		} else spl = [];
-		if (com[0] != '') {
-			for (const idx in com) {
-				com[idx] = com[idx].split(' ');
-				com[idx][0] = parseInt(com[idx][0]);
-				com[idx][1] = parseInt(com[idx][1]);
-			}
-		} else com = [];
+		// if (com[0] != '') {
+		// 	for (const idx in com) {
+		// 		com[idx] = com[idx].split(' ');
+		// 		com[idx][0] = parseInt(com[idx][0]);
+		// 		com[idx][1] = parseInt(com[idx][1]);
+		// 	}
+		// } else com = [];
 		res = {
 			'status': 1,
-			'spl': spl,
-			'com': com
+			// 'com': com
 		}
 	} catch {
 		res = {
@@ -340,8 +336,7 @@ const generate = async () => {
 	let tmp = [];
 	let last_row = [];
 	let pos = [];
-	var resspl = res.spl;
-	var rescom = res.com;
+	// var rescom = res.com;
 	let vis = [];
 	let seat = new Array(n).fill().map(() => new Array(m).fill('-'));
 	// console.log(person);
@@ -400,8 +395,8 @@ const generate = async () => {
 		rs = checkValid({
 			'seat': seat,
 			'zz': zz,
-			'com': rescom,
-			'spl': resspl
+			// 'com': rescom,
+			'spl': spl
 		});
 		if (rs[0]) {
 			await setTable({
