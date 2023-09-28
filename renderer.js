@@ -32,6 +32,9 @@ document.getElementById('chooseFile').addEventListener('click', () => {
 				person = fc_json.person_sort_by_height.split(' ');
 				zz = fc_json.zz.split(' ');
 				spl = fc_json.separate.split('\n');
+				for (const idx in last_row_pos_can_be_choosed) {
+					last_row_pos_can_be_choosed[idx] = parseInt(last_row_pos_can_be_choosed[idx]);
+				}
 				for (const idx in zz) {
 					zz[idx] = parseInt(zz[idx]);
 				}
@@ -64,6 +67,9 @@ fetch('./config.json')
 		person = json.person_sort_by_height.split(' ');
 		zz = json.zz.split(' ');
 		spl = json.separate.split('\n');
+	    	for (const idx in last_row_pos_can_be_choosed) {
+			last_row_pos_can_be_choosed[idx] = parseInt(last_row_pos_can_be_choosed[idx]);
+		}
 		for (const idx in zz) {
 			zz[idx] = parseInt(zz[idx]);
 		}
