@@ -387,7 +387,7 @@ const generate = async () => {
 				rand_num = Math.floor(Math.random() * last_row_pos_can_be_choosed.length)
 			}
 			vis[rand_num] = 1;
-			pos[i] = rand_num;
+			pos[i] = last_row_pos_can_be_choosed[rand_num] - 1;
 		}
 		for (let i = 0; i < last_row.length; i++){
 			seat[n - 1][pos[i]] = last_row[i]; 
