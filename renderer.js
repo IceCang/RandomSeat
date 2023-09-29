@@ -70,7 +70,7 @@ document.getElementById('random-seed').addEventListener('click', () => {
 	document.getElementById('seed').value = tmp;
 })
 document.getElementById('set-seed-use-time').addEventListener('click', () => {
-	document.getElementById('seed').value = new Date().toISOString().split('T')[0].replaceAll('-','');
+	document.getElementById('seed').value = new Date(+new Date() + 8 * 3600 * 1000).toISOString().split('.')[0].replaceAll(/T|Z/gi, ' ');
 })
 document.getElementById('fill5').addEventListener('click', () => {
 	document.getElementById('spl').value = defaultspl;
