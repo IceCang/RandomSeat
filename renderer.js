@@ -1,4 +1,4 @@
-let n, m, K, last_row_pos_can_be_choosed, person, spl;
+let n, m, K, last_row_pos_can_be_choosed, person, defaultspl;
 function upload() {
 	var inputObj=document.createElement('input')
 	inputObj.setAttribute('id','file');
@@ -10,14 +10,34 @@ function upload() {
 	inputObj.click();
 	// console.log(inputObj);
 } 
+function read(json){
+	try {
+		n = json.rows; //行数
+		m = json.columns; //列数
+		K = json.random_between_rows; //每多少行之间打乱
+		last_row_pos_can_be_choosed = json.last_row_pos_can_be_choosed.split(' '); //最后一行可选位置
+		person = json.person_sort_by_height.split(' ');
+		zz = json.zz.split(' ');
+		defaultspl = json.separate;
+		for (const idx in last_row_pos_can_be_choosed) {
+			last_row_pos_can_be_choosed[idx] = parseInt(last_row_pos_can_be_choosed[idx]);
+		}
+		for (const idx in zz) {
+			zz[idx] = parseInt(zz[idx]);
+		}
+		for (const idx in person) {
+			person[idx] = parseInt(person[idx]);
+		}
+	} catch (error) {
+		console.log(error);
+		log("config文件格式错误,无法读取!");
+	}
+}
 document.getElementById('chooseFile').addEventListener('click', () => {
 	upload();
 	document.querySelector('#file').addEventListener('change', e => {
 		for (let entry of e.target.files){
 			document.getElementById("fileNameInput").value=entry.name;
-			// path = entry.path;
-			// console.log(entry);
-			// console.log(entry.name, entry.webkitRelativePath);
 		};
 		let file = e.target.files[0];
 		let file_reader = new FileReader();
@@ -25,29 +45,10 @@ document.getElementById('chooseFile').addEventListener('click', () => {
 			try {
 				let fc = file_reader.result;
 				let fc_json = JSON.parse(fc);
-				n = parseInt(fc_json.rows); //行数
-				m = parseInt(fc_json.columns); //列数
-				K = parseInt(fc_json.random_between_rows); //每多少行之间打乱
-				last_row_pos_can_be_choosed = fc_json.last_row_pos_can_be_choosed.split(' '); //最后一行可选位置
-				person = fc_json.person_sort_by_height.split(' ');
-				zz = fc_json.zz.split(' ');
-				spl = fc_json.separate.split('\n');
-				for (const idx in last_row_pos_can_be_choosed) {
-					last_row_pos_can_be_choosed[idx] = parseInt(last_row_pos_can_be_choosed[idx]);
-				}
-				for (const idx in zz) {
-					zz[idx] = parseInt(zz[idx]);
-				}
-				for (const idx in person) {
-					person[idx] = parseInt(person[idx]);
-				}
-				if (spl[0] != '') {
-					for (const idx in spl) {
-						spl[idx] = spl[idx].split(' ');
-						spl[idx][0] = parseInt(spl[idx][0]);
-						spl[idx][1] = parseInt(spl[idx][1]);
-					}
-				} else spl = [];
+				read(fc_json);
+				resetTable();
+				initTable(); //读完 n,m 才有值
+				export_table = new Array(n + 1).fill(0).map(_ => new Array(m));
 			} catch (error) {
 				console.log(error);
 				log("config文件格式错误,无法读取!");
@@ -59,30 +60,7 @@ document.getElementById('chooseFile').addEventListener('click', () => {
 fetch('./config.json')
     .then((response) => response.json())
     .then((json) => {
-		// console.log(json);
-		n = parseInt(json.rows); //行数
-		m = parseInt(json.columns); //列数
-		K = parseInt(json.random_between_rows); //每多少行之间打乱
-		last_row_pos_can_be_choosed = json.last_row_pos_can_be_choosed.split(' '); //最后一行可选位置
-		person = json.person_sort_by_height.split(' ');
-		zz = json.zz.split(' ');
-		spl = json.separate.split('\n');
-	    	for (const idx in last_row_pos_can_be_choosed) {
-			last_row_pos_can_be_choosed[idx] = parseInt(last_row_pos_can_be_choosed[idx]);
-		}
-		for (const idx in zz) {
-			zz[idx] = parseInt(zz[idx]);
-		}
-		for (const idx in person) {
-			person[idx] = parseInt(person[idx]);
-		}
-		if (spl[0] != '') {
-			for (const idx in spl) {
-				spl[idx] = spl[idx].split(' ');
-				spl[idx][0] = parseInt(spl[idx][0]);
-				spl[idx][1] = parseInt(spl[idx][1]);
-			}
-		} else spl = [];
+		read(json);
 		initTable(); //读完 n,m 才有值
 		export_table = new Array(n + 1).fill(0).map(_ => new Array(m));
 	})
@@ -92,7 +70,16 @@ document.getElementById('random-seed').addEventListener('click', () => {
 	document.getElementById('seed').value = tmp;
 })
 document.getElementById('set-seed-use-time').addEventListener('click', () => {
-	document.getElementById('seed').value = new Date().toISOString().replace('T', ' ').replace('Z','');
+	document.getElementById('seed').value = new Date().toISOString().split('T')[0].replaceAll('-','');
+})
+document.getElementById('hide').addEventListener('click', () => {
+	document.getElementById('spl').style = "display:none;";
+})
+document.getElementById('show').addEventListener('click', () => {
+	document.getElementById('spl').style = "";
+})
+document.getElementById('fill5').addEventListener('click', () => {
+	document.getElementById('spl').value = defaultspl;
 })
 
 const logBox = document.getElementsByClassName('log-box')[0];
@@ -102,6 +89,15 @@ const log = (a) => {
 	logBox.scrollTop = logBox.scrollheight;
 }
 
+const resetTable = async () => {
+	let result = document.createElement('span');
+	result.id = 'tb'
+	console.log(result);
+	node = document.getElementById('res');
+	console.log(node);
+	node.parentNode.insertBefore(result, node);
+	node.remove();
+}
 const initTable = async () => {
 	let result = document.createElement('table');
 	result.className = "tc mt";
@@ -190,7 +186,7 @@ const setTable = async (dat) => {
 		insideHtml += btr;
 	}
 
-	for (let j = 0; j < m; j++) export_table[0][j] = "第" + (m - j) + "列";
+	for (let j = 0; j < m; j++) export_table[0][j] = "第" + (j + 1) + "列";
 
 	insideHtml += btbody;
 	result.innerHTML = insideHtml;
@@ -315,8 +311,16 @@ const generate = async () => {
 	};
 	try {
 		// let com = document.getElementById('com').value.split('\n');
+		let spl = document.getElementById('spl').value.split('\n');
 		let seed = document.getElementById('seed').value;
 		Math.seedrandom(seed);
+		if (spl[0] != '') {
+			for (const idx in spl) {
+				spl[idx] = spl[idx].split(' ');
+				spl[idx][0] = parseInt(spl[idx][0]);
+				spl[idx][1] = parseInt(spl[idx][1]);
+			}
+		} else spl = [];
 		// if (com[0] != '') {
 		// 	for (const idx in com) {
 		// 		com[idx] = com[idx].split(' ');
@@ -326,6 +330,7 @@ const generate = async () => {
 		// } else com = [];
 		res = {
 			'status': 1,
+			'spl': spl,
 			// 'com': com
 		}
 	} catch {
@@ -342,6 +347,7 @@ const generate = async () => {
 	let tmp = [];
 	let last_row = [];
 	let pos = [];
+	var resspl = res.spl;
 	// var rescom = res.com;
 	let vis = [];
 	let seat = new Array(n).fill().map(() => new Array(m).fill('-'));
@@ -350,7 +356,19 @@ const generate = async () => {
 		generation++;
 		for (let now_row = 0; now_row < n; now_row += K){
 			tmp.length = 0;
-			if (n - now_row - K == 1){
+			if (n - now_row - K == 0){
+				for (let i = 0; i < person.length - now_row * m; i++){
+					tmp[i] = person[i + now_row * m];
+				}
+				tmp = shuffle(tmp);
+				for (let i = 0; i < (K - 1) * m; i++){
+					ans[i + now_row * m] = tmp[i];
+				}
+				for (let i = 0; i < person.length - (now_row + K - 1) * m; i++){
+					last_row[i] = tmp[i + (K - 1) * m];
+				}
+				break;
+			}else if (n - now_row - K == 1){
 				for (let i = 0; i < person.length - now_row * m; i++){
 					tmp[i] = person[i + now_row * m];
 				}
@@ -387,7 +405,7 @@ const generate = async () => {
 			vis[i] = 0;
 			pos[i] = 0;
 		}
-		for (let i = 0; i < m; i++){
+		for (let i = 0; i < last_row.length; i++){
 			let rand_num = Math.floor(Math.random() * last_row_pos_can_be_choosed.length);
 			while (vis[rand_num]){
 				rand_num = Math.floor(Math.random() * last_row_pos_can_be_choosed.length)
@@ -402,7 +420,7 @@ const generate = async () => {
 			'seat': seat,
 			'zz': zz,
 			// 'com': rescom,
-			'spl': spl
+			'spl': resspl
 		});
 		if (rs[0]) {
 			await setTable({
