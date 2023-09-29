@@ -72,12 +72,6 @@ document.getElementById('random-seed').addEventListener('click', () => {
 document.getElementById('set-seed-use-time').addEventListener('click', () => {
 	document.getElementById('seed').value = new Date().toISOString().split('T')[0].replaceAll('-','');
 })
-document.getElementById('hide').addEventListener('click', () => {
-	document.getElementById('spl').style = "display:none;";
-})
-document.getElementById('show').addEventListener('click', () => {
-	document.getElementById('spl').style = "";
-})
 document.getElementById('fill5').addEventListener('click', () => {
 	document.getElementById('spl').value = defaultspl;
 })
