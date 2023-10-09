@@ -114,7 +114,13 @@ const initTable = async () => {
 	insideHtml += btbody;
 	result.innerHTML = insideHtml;
 	node = document.getElementById('tb');
+	let special = document.createElement('span');
+	let special1 = document.createElement('br');
+	special.setAttribute('style', 'margin: 0 auto');
+	special.innerHTML = `幸运观众:&nbsp;<span id="special">-</span>`
 	node.parentNode.insertBefore(result, node);
+	node.parentNode.insertBefore(special1, node);
+	node.parentNode.insertBefore(special, node);
 	node.remove();
 	document.getElementById('generate').addEventListener('click', generate);
 	document.getElementById('generate').addEventListener('click', () => {
@@ -162,6 +168,7 @@ const setTable = async (dat) => {
 
 	const zz = dat.zz;
 	const seat = dat.seat;
+	const special = dat.special;
 	// console.log('seat in setTable function const');
 	// console.log(seat);
 	for (let i = 0; i < n; i++) {
@@ -184,6 +191,7 @@ const setTable = async (dat) => {
 
 	insideHtml += btbody;
 	result.innerHTML = insideHtml;
+	document.getElementByID('special').innerText = special;
 }
 
 const shuffle = (arr) => {
@@ -390,7 +398,7 @@ const generate = async () => {
 		for (let i = 0; i < n - 1; i++)
 			for (let j = 0; j < m; j++)
 				seat[i][j] = ans[i * m + j];
-		if (last_row.length > last_row_pos_can_be_choosed.length){
+		if (last_row.length - 1 > last_row_pos_can_be_choosed.length){
 			log("生成失败，最后一行人数大于可选择位置数！");
 			failed();
 			return;
@@ -399,7 +407,7 @@ const generate = async () => {
 			vis[i] = 0;
 			pos[i] = 0;
 		}
-		for (let i = 0; i < last_row.length; i++){
+		for (let i = 0; i < last_row.length - 1; i++){
 			let rand_num = Math.floor(Math.random() * last_row_pos_can_be_choosed.length);
 			while (vis[rand_num]){
 				rand_num = Math.floor(Math.random() * last_row_pos_can_be_choosed.length)
@@ -419,7 +427,8 @@ const generate = async () => {
 		if (rs[0]) {
 			await setTable({
 				'seat': seat,
-				'zz': rs[1]
+				'zz': rs[1],
+				'special': last_row[last_row.length-1]
 			})
 			log('Success Generation ' + generation + '!');
 			success();
