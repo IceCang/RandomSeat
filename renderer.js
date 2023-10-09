@@ -415,7 +415,7 @@ const generate = async () => {
 			vis[rand_num] = 1;
 			pos[i] = last_row_pos_can_be_choosed[rand_num] - 1;
 		}
-		for (let i = 0; i < last_row.length; i++){
+		for (let i = 0; i < last_row.length - 1; i++){
 			seat[n - 1][pos[i]] = last_row[i]; 
 		}
 		rs = checkValid({
