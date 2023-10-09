@@ -1,5 +1,5 @@
 {
-    "rows": 22,
+    "rows": 7,
     "columns": 7,
     "random_between_rows": 2,
     "last_row_pos_can_be_choosed": "3 4 5",
@@ -7,3 +7,4 @@
     "zz":"2 4 10 16 19 20 23 24 25 26 27 28 29 30 31 32 33 34 38 39 43 44",
     "separate":"25 30"
 }
+/**/
