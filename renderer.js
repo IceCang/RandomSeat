@@ -116,8 +116,8 @@ const initTable = async () => {
 	node = document.getElementById('tb');
 	let special = document.createElement('span');
 	let special1 = document.createElement('br');
-	special.setAttribute('style', 'margin: 0 auto');
-	special.innerHTML = `幸运观众:&nbsp;<span id="special">-</span>`
+	special.setAttribute('style', 'width: 100%;');
+	special.innerHTML = `<center>幸运观众:&nbsp;<span id="special">-</span></center>`
 	node.parentNode.insertBefore(result, node);
 	node.parentNode.insertBefore(special1, node);
 	node.parentNode.insertBefore(special, node);
@@ -191,7 +191,7 @@ const setTable = async (dat) => {
 
 	insideHtml += btbody;
 	result.innerHTML = insideHtml;
-	document.getElementByID('special').innerText = special;
+	document.getElementById('special').innerText = special;
 }
 
 const shuffle = (arr) => {
@@ -446,6 +446,8 @@ document.getElementById('export').addEventListener('click', () => {
 	data += "\n";
 	data += "seed,";
 	data += document.getElementById('seed').value ;
+	data += ",special,";
+	data += document.getElementById('special').innerText;
 	console.log(data);
 	var uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(data);
 	var downloadLink = document.createElement("a");
