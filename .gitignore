@@ -106,3 +106,5 @@ dist
 # Electron-Forge output
 out/
 out.zip
+
+test.sh
