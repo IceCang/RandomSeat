@@ -11,17 +11,15 @@ const nothing = "-";
 const logBox = document.getElementsByClassName("log-box")[0];
 
 function shuffle(arr) {
-    let arr1 = [];
-    for (const item of arr) arr1.push(item);
     let random;
     let tmp;
     for (let i = arr.length; i > 0; i--) {
-        random = Math.floor(Math.random() * arr1.length)
-        tmp = arr1[i - 1];
-        arr1[i - 1] = arr1[random]
-        arr1[random] = tmp;
+        random = Math.floor(Math.random() * arr.length)
+        tmp = arr[i - 1];
+        arr[i - 1] = arr[random]
+        arr[random] = tmp;
     }
-    return arr1
+    return arr
 }
 
 function upload() {
