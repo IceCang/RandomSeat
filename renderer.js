@@ -63,7 +63,7 @@ function log(msg) {
     logBox.scrollTop = logBox.scrollheight;
 }
 
-async function resetTable() {
+function resetTable() {
     let result = document.createElement("span");
     result.id = "tb"
     console.log(result);
@@ -72,7 +72,7 @@ async function resetTable() {
     node.parentNode.insertBefore(result, node);
     node.remove();
 }
-async function initTable() {
+function initTable() {
     let node;
     let result = document.createElement("table");
     result.className = "tc mt";
@@ -308,7 +308,7 @@ async function generate() {
                 for (let i = 0; i < person.length - now_row * columnCount; i++) {
                     tmp[i] = person[i + now_row * columnCount];
                 }
-                tmp = shuffle(tmp);
+                shuffle(tmp);
                 for (let i = 0; i < (K - 1) * columnCount; i++) {
                     ans[i + now_row * columnCount] = tmp[i];
                 }
@@ -320,7 +320,7 @@ async function generate() {
                 for (let i = 0; i < person.length - now_row * columnCount; i++) {
                     tmp[i] = person[i + now_row * columnCount];
                 }
-                tmp = shuffle(tmp);
+                shuffle(tmp);
                 for (let i = 0; i < K * columnCount; i++) {
                     ans[i + now_row * columnCount] = tmp[i];
                 }
@@ -328,14 +328,13 @@ async function generate() {
                     last_row[i] = tmp[i + K * columnCount];
                 }
                 break;
-            } else {
-                for (let i = 0; i < K * columnCount; i++) {
-                    tmp[i] = person[i + now_row * columnCount];
-                }
-                tmp = shuffle(tmp);
-                for (let i = 0; i < K * columnCount; i++) {
-                    ans[i + now_row * columnCount] = tmp[i];
-                }
+            }
+            for (let i = 0; i < K * columnCount; i++) {
+                tmp[i] = person[i + now_row * columnCount];
+            }
+            shuffle(tmp);
+            for (let i = 0; i < K * columnCount; i++) {
+                ans[i + now_row * columnCount] = tmp[i];
             }
         }
         for (let i = 0; i < rowCount; i++)
