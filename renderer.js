@@ -106,7 +106,7 @@ async function initTable() {
     })
 }
 
-async function initLog() {
+function initLog() {
     log(`Hello Random Seat by EDP2021C1 EEC`);
 }
 
@@ -130,7 +130,7 @@ function success() {
     setTimeout(resetButton, 1000);
 }
 
-async function setTable(dat) {
+function setTable(dat) {
     let result = document.getElementById("res");
     const ztd = "<td class=\"zz\">";
     let insideHtml = tbody;
