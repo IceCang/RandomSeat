@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP -->
@@ -10,7 +10,7 @@
     <title>ESGEN - Random Seat</title>
 </head>
 <body>
-<div class="titlebar">
+<div class="title-bar">
     <span class="title">Random Seat v2.0.2 powered by liucang, modified by EDP2021 EEC</span>
     <button class="close" id="close"></button>
     <button class="minimize" id="minimize"></button>
@@ -19,9 +19,7 @@
     <div class="am-g main-grid">
         <div class="am-u-lg-6 am-u-md-8 main-grid lft-p">
             <br>
-            <h1>
-                <center>--Result--</center>
-            </h1>
+            <h1 style="text-align: center;">--Result--</h1>
             <span id="tb"></span>
         </div>
         <div class="am-u-lg-6 am-u-md-4 main-grid">
@@ -32,11 +30,12 @@
                 </div>
                 <br>
                 <div class="tl">
-                    <label class="layui-form-label">文件名</label>
-                    <input autocomplete="off" class="layui-input" disabled="disabled" id="fileNameInput" name="title" placeholder="请选择文件" title="不可编辑" type="text">
+                    <label>文件名</label>
+                    <input autocomplete="off" disabled="disabled" id="fileNameInput" name="title" placeholder="请选择文件" title="不可编辑" type="text">
                     <button class="am-btn am-btn-primary am-round" id="chooseFile" style="height: 25px; font-size: 0.7em;" type="button">选择文件</button>
                     <br>
-                    <label>种子</label>&nbsp;<input class="lineinput" id="seed" style="width:200px">
+                    <label>种子</label>&nbsp;
+                    <label for="seed"></label><input class="line-input" id="seed" style="width:200px">
                     <button class="am-btn am-btn-primary am-round" id="random-seed" type="button">随机种子</button>
                     <button class="am-btn am-btn-primary am-round" id="set-seed-use-time" style="height: 25px; font-size: 0.7em;" type="button">填入时间</button>
                     <br>
@@ -45,7 +44,7 @@
                 <label>分开</label>
                 <button class="am-btn am-btn-primary am-round" id="fill5" style="height: 25px; font-size: 0.7em;" type="button">填入默认</button>
                 <br>
-                <textarea class="control-box" id="spl"></textarea>
+                <label for="spl"></label><textarea class="control-box" id="spl"></textarea>
                 <br>
                 <!-- <label style="display: none;">享受生活</label><textarea style="display: none;" class="control-box" id="com"></textarea><br> -->
                 <br>

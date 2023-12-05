@@ -24,7 +24,7 @@ button {
     border: none;
 }
 
-.titlebar {
+.title-bar {
     -webkit-app-region: drag;
     position: fixed;
     width: 100%;
@@ -147,7 +147,7 @@ input:focus, textarea:focus {
 }
 
 
-.lineinput + button {
+.line-input + button {
     height: 25px;
     font-size: 0.7em;
 }
