@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const {app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
 if (require('electron-squirrel-startup')) app.quit();
 // require('update-electron-app')()
