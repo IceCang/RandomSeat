@@ -56,5 +56,4 @@ if (checkValid({
     })
     logBox.innerText += 'Success Generation' + generation + '!';
     success()
-    return
 }

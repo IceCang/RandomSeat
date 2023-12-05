@@ -1,7 +1,15 @@
-let n, m, K, last_row_pos_can_be_choosed, person, defaultspl;
+let n, m, K, last_row_pos_can_be_choosed, person, zz, defaultspl, export_table;
+
+const tbody = "<tbody>";
+const tr = "<tr>";
+const btr = "</tr>";
+const btbody = "</tbody>";
+const td = "<td>";
+const btd = "</td>";
+const nothing = "-";
 
 function upload() {
-    var inputObj = document.createElement('input')
+    const inputObj = document.createElement('input');
     inputObj.setAttribute('id', 'file');
     inputObj.setAttribute('type', 'file');
     inputObj.setAttribute('name', 'file');
@@ -42,7 +50,7 @@ document.getElementById('chooseFile').addEventListener('click', () => {
         for (let entry of e.target.files) {
             document.getElementById("fileNameInput").value = entry.name;
         }
-        ;
+
         let file = e.target.files[0];
         let file_reader = new FileReader();
         file_reader.onload = () => {
@@ -91,22 +99,16 @@ const resetTable = async () => {
     let result = document.createElement('span');
     result.id = 'tb'
     console.log(result);
-    node = document.getElementById('res');
+    let node = document.getElementById('res');
     console.log(node);
     node.parentNode.insertBefore(result, node);
     node.remove();
 }
 const initTable = async () => {
+    let node;
     let result = document.createElement('table');
     result.className = "tc mt";
     result.id = 'res'
-    const tbody = "<tbody>";
-    const tr = "<tr>";
-    const btr = "</tr>";
-    const btbody = "</tbody>";
-    const td = "<td>";
-    const btd = "</td>";
-    const nothing = "-";
     let insideHtml = tbody;
     for (let _ = 0; _ < n; _++) {
         insideHtml += tr;
@@ -121,7 +123,7 @@ const initTable = async () => {
     let special = document.createElement('span');
     let special1 = document.createElement('br');
     special.setAttribute('style', 'width: 100%;');
-    special.innerHTML = `<center>幸运观众:&nbsp;<span id="special">-</span></center>`
+    special.innerHTML = `<div style="text-align: center">幸运观众:&nbsp;<span id="special">-</span></div>`
     node.parentNode.insertBefore(result, node);
     node.parentNode.insertBefore(special1, node);
     node.parentNode.insertBefore(special, node);
@@ -160,14 +162,7 @@ const success = () => {
 
 const setTable = async (dat) => {
     let result = document.getElementById('res');
-    const tbody = "<tbody>";
-    const tr = "<tr>";
-    const btr = "</tr>";
-    const btbody = "</tbody>";
-    const td = "<td>";
     const ztd = '<td class="zz">';
-    const btd = "</td>";
-    const nothing = "-";
     let insideHtml = tbody;
 
     const zz = dat.zz;
@@ -215,28 +210,28 @@ const checkSpl = (a, b, seat) => {
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < m; j++) {
             if (seat[i][j] === a || seat[i][j] === b) {
-                if (i != 0) {
+                if (i !== 0) {
                     if (seat[i - 1][j] === a || seat[i - 1][j] === b) return false;
-                    if (j != 0) {
+                    if (j !== 0) {
                         if (seat[i - 1][j - 1] === a || seat[i - 1][j - 1] === b) return false;
                     }
-                    if (j != m - 1) {
+                    if (j !== m - 1) {
                         if (seat[i - 1][j + 1] === a || seat[i - 1][j + 1] === b) return false;
                     }
                 }
-                if (i != n - 1) {
+                if (i !== n - 1) {
                     if (seat[i + 1][j] === a || seat[i + 1][j] === b) return false;
-                    if (j != 0) {
+                    if (j !== 0) {
                         if (seat[i + 1][j - 1] === a || seat[i + 1][j - 1] === b) return false;
                     }
-                    if (j != m - 1) {
+                    if (j !== m - 1) {
                         if (seat[i + 1][j + 1] === a || seat[i + 1][j + 1] === b) return false;
                     }
                 }
-                if (j != 0) {
+                if (j !== 0) {
                     if (seat[i][j - 1] === a || seat[i][j - 1] === b) return false;
                 }
-                if (j != m - 1) {
+                if (j !== m - 1) {
                     if (seat[i][j + 1] === a || seat[i][j + 1] === b) return false;
                 }
             }
@@ -245,20 +240,21 @@ const checkSpl = (a, b, seat) => {
     return true;
 }
 
+/*
 const checkCom = (a, b, seat) => {
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < m; j++) {
             if (seat[i][j] === a || seat[i][j] === b) {
-                if (i != 0) {
+                if (i !== 0) {
                     if (seat[i - 1][j] === a || seat[i - 1][j] === b) return true;
                 }
-                if (i != n - 1) {
+                if (i !== n - 1) {
                     if (seat[i + 1][j] === a || seat[i + 1][j] === b) return true;
                 }
-                if (j != 0) {
+                if (j !== 0) {
                     if (seat[i][j - 1] === a || seat[i][j - 1] === b) return true;
                 }
-                if (j != m - 1) {
+                if (j !== m - 1) {
                     if (seat[i][j + 1] === a || seat[i][j + 1] === b) return true;
                 }
             }
@@ -267,6 +263,7 @@ const checkCom = (a, b, seat) => {
     // To disable This, edit this to "return true;"
     return true;
 }
+*/
 
 const checkValid = (dat) => {
     const seat = dat.seat;
@@ -303,24 +300,13 @@ const checkValid = (dat) => {
 const generate = async () => {
     let generation = 0;
     log('Checking format...');
-    var res = {
-        'status': 1,
-        'rows': 0,
-        'columns': 0,
-        'random_between_rows': 0,
-        'last_row_pos_can_be_choosed': [],
-        'person_sort_by_height': [],
-        'spl': [],
-        'com': [],
-        'zz': [],
-        'separate': []
-    };
+    let res;
     try {
         // let com = document.getElementById('com').value.split('\n');
         let spl = document.getElementById('spl').value.split('\n');
         let seed = document.getElementById('seed').value;
         Math.seedrandom(seed);
-        if (spl[0] != '') {
+        if (spl[0] !== '') {
             for (const idx in spl) {
                 spl[idx] = spl[idx].split(' ');
                 spl[idx][0] = parseInt(spl[idx][0]);
@@ -349,11 +335,12 @@ const generate = async () => {
         failed();
         return;
     }
+    let rs;
     let ans = [];
     let tmp = [];
     let last_row = [];
     let pos = [];
-    var resspl = res.spl;
+    const resspl = res.spl;
     // var rescom = res.com;
     let vis = [];
     let seat = new Array(n).fill().map(() => new Array(m).fill('-'));
@@ -362,7 +349,7 @@ const generate = async () => {
         generation++;
         for (let now_row = 0; now_row < n; now_row += K) {
             tmp.length = 0;
-            if (n - now_row - K == 0) {
+            if (n - now_row - K === 0) {
                 for (let i = 0; i < person.length - now_row * m; i++) {
                     tmp[i] = person[i + now_row * m];
                 }
@@ -374,7 +361,7 @@ const generate = async () => {
                     last_row[i] = tmp[i + (K - 1) * m];
                 }
                 break;
-            } else if (n - now_row - K == 1) {
+            } else if (n - now_row - K === 1) {
                 for (let i = 0; i < person.length - now_row * m; i++) {
                     tmp[i] = person[i + now_row * m];
                 }
@@ -453,13 +440,13 @@ document.getElementById('export').addEventListener('click', () => {
     data += ",special,";
     data += document.getElementById('special').innerText;
     console.log(data);
-    var uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(data);
-    var downloadLink = document.createElement("a");
+    const uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(data);
+    const downloadLink = document.createElement("a");
     downloadLink.href = uri;
-    var d = new Date();
-    var year = d.getYear() - 100 + 2000;
-    var month = d.getMonth() + 1;
-    var date = d.getDate();
+    const d = new Date();
+    const year = d.getFullYear() - 100 + 2000;
+    const month = d.getMonth() + 1;
+    const date = d.getDate();
     downloadLink.download = (year + "-" + month + "-" + date + ".csv") || "temp.csv";
     document.body.appendChild(downloadLink);
     downloadLink.click();
