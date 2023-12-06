@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP -->
@@ -7,53 +7,51 @@
     <link href="app.css" rel="stylesheet" type="text/css">
     <link href="materialicon/material-icons.css" rel="stylesheet" type="text/css">
     <link href="assets/css/amazeui.min.css" rel="stylesheet" type="text/css">
-	<title>ESGEN - Random Seat</title>
+    <title>ESGEN - Random Seat</title>
 </head>
 <body>
-    <div class="titlebar">
-        <span class="title">Random Seat v1.2.2 powered by liucang, modified by EDP2021 EEC</span>
-        <button class="close" id="close"></button>
-        <button class="minimize" id="minimize"></button>
-    </div>
-	<div class="main-container">
+<div class="title-bar">
+    <span class="title">Random Seat v2.0.2 powered by liucang, modified by EDP2021 EEC</span>
+    <button class="close" id="close"></button>
+    <button class="minimize" id="minimize"></button>
+</div>
+<div class="main-container">
     <div class="am-g main-grid">
         <div class="am-u-lg-6 am-u-md-8 main-grid lft-p">
             <br>
-			<h1><center>--Result--</center></h1>
-			<span id="tb"></span>
-		</div>
-		<div class="am-u-lg-6 am-u-md-4 main-grid">
-			<div class="control tc">
+            <h1 style="text-align: center;">--Result--</h1>
+            <span id="tb"></span>
+        </div>
+        <div class="am-u-lg-6 am-u-md-4 main-grid">
+            <div class="control tc">
                 <br>
-			    <div class="log">
-				    <textarea readonly class="log-box"></textarea>
-			    </div>
+                <div class="log">
+                    <textarea class="log-box" readonly></textarea>
+                </div>
                 <br>
                 <div class="tl">
-
-                <label class="layui-form-label">文件名:</label>
-                <input type="text" name="title" placeholder="请选择文件" id = "fileNameInput" autocomplete="off" class="layui-input" disabled="disabled" title="不可编辑">
-                <button type="button" class="am-btn am-btn-primary am-round" id="chooseFile" style="height: 25px; font-size: 0.7em;" >选择文件</button> <br>
-
-				<label>第1～2排</label>&nbsp;<input class="lineinput" id="ot" style="width:375px"> <button type="button" class="am-btn am-btn-primary am-round" id="fill1">填入默认</button> <br>
-                <label>第3～4排</label>&nbsp;<input class="lineinput" id="tf" style="width:375px"> <button type="button" class="am-btn am-btn-primary am-round" id="fill2">填入默认</button> <br>
-                <label>第5～6排</label>&nbsp;<input class="lineinput" id="fs" style="width:375px"> <button type="button" class="am-btn am-btn-primary am-round" id="fill3">填入默认</button> <br>
-                <label>组长</label>&nbsp;<input class="lineinput" id="zz" style="width:190px"> <button type="button" class="am-btn am-btn-primary am-round" id="fill4">填入默认</button> <br>
-                <label>种子</label>&nbsp;<input class="lineinput" id="seed" style="width:100px"> <button type="button" class="am-btn am-btn-primary am-round" id="random seed">随机种子</button> <button type="button" class="am-btn am-btn-primary am-round" id="set seed as date"  style="height: 25px; font-size: 0.7em;">填入日期</button> <br> 
+                    <label>文件名</label>
+                    <input autocomplete="off" id="fileNameInput" name="title" placeholder="请选择文件" title="不可编辑" type="text" disabled>
+                    <button class="am-btn am-btn-primary am-round" id="chooseFile" style="height: 25px; font-size: 0.7em;" type="button">选择文件</button>
+                    <br>
+                    <label>种子</label>&nbsp;
+                    <label for="seed"></label><input class="line-input" id="seed" style="width:200px">
+                    <button class="am-btn am-btn-primary am-round" id="random-seed" type="button">随机种子</button>
+                    <button class="am-btn am-btn-primary am-round" id="set-seed-use-time" style="height: 25px; font-size: 0.7em;" type="button">填入时间</button>
+                    <br>
                 </div>
                 <br>
                 <label>分开</label>
-                <button type="button" class="am-btn am-btn-primary am-round" id="fill5" style="height: 25px; font-size: 0.7em;">填入默认</button>
-                <button type="button" class="am-btn am-btn-primary am-round" id="hide" style="height: 25px; font-size: 0.7em;">隐藏</button>
-                <button type="button" class="am-btn am-btn-primary am-round" id="show" style="height: 25px; font-size: 0.7em;">显示</button>
-                <br> 
-                <textarea class="control-box" id="spl"></textarea><br>
-                <label style="display: none;">享受生活</label><textarea style="display: none;" class="control-box" id="com"></textarea><br>
+                <button class="am-btn am-btn-primary am-round" id="fill5" style="height: 25px; font-size: 0.7em;" type="button">填入默认</button>
                 <br>
-                <button type="button" class="am-btn am-btn-primary am-round" id="generate">开始生成！</button>
-                <button type="button" class="am-btn am-btn-primary am-round" id="export">导出座位表</button>
-			</div>
-		</div>
+                <label for="spl"></label><textarea class="control-box" id="spl"></textarea>
+                <br>
+                <!-- <label style="display: none;">享受生活</label><textarea style="display: none;" class="control-box" id="com"></textarea><br> -->
+                <br>
+                <button class="am-btn am-btn-primary am-round" id="generate" type="button">开始生成！</button>
+                <button class="am-btn am-btn-primary am-round" id="export" type="button">导出座位表</button>
+            </div>
+        </div>
     </div>
 </div>
 </body>

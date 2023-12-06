@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macOS-latest, ubuntu-latest, ]
+        os: [ windows-latest, macOS-latest, ubuntu-latest, ]
 
     # create steps
     steps:
@@ -42,7 +42,7 @@ jobs:
 
       - name: build app
         run: npm run make
-        env: 
+        env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # step6: upload artifacts
@@ -53,9 +53,9 @@ jobs:
           path: out
 
   release:
-    needs: [build]
+    needs: [ build ]
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       - name: download artifacts
         uses: actions/download-artifact@v2
         with:

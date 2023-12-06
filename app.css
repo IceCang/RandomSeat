@@ -24,7 +24,7 @@ button {
     border: none;
 }
 
-.titlebar {
+.title-bar {
     -webkit-app-region: drag;
     position: fixed;
     width: 100%;
@@ -114,7 +114,7 @@ input, textarea {
     border-radius: 10px;
     padding-left: 10px;
     padding-right: 10px;
-    outline: none; 
+    outline: none;
     border: none;
     transition: .5s ease;
 }
@@ -127,12 +127,13 @@ input, textarea {
     input, textarea {
         width: 75% !important;
     }
+
     .log {
         height: 7%;
     }
 }
 
-input:focus, textarea:focus{
+input:focus, textarea:focus {
     background-color: hsla(247, 39%, 50%, 0.8);
 }
 
@@ -146,7 +147,7 @@ input:focus, textarea:focus{
 }
 
 
-.lineinput+button {
+.line-input + button {
     height: 25px;
     font-size: 0.7em;
 }

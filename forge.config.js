@@ -1,27 +1,27 @@
 module.exports = {
-  packagerConfig: {
-    osxSign: {},
-  },
-  rebuildConfig: {},
-  makers: [
-    {
-      name: '@electron-forge/maker-squirrel',
-      config: {
-        certificateFile: './cert.pfx',
-        certificatePassword: process.env.CERTIFICATE_PASSWORD,
-      },
+    packagerConfig: {
+        osxSign: {},
     },
-    {
-      name: '@electron-forge/maker-zip',
-      platforms: ['darwin'],
-    },
-    {
-      name: '@electron-forge/maker-deb',
-      config: {},
-    },
-    {
-      name: '@electron-forge/maker-rpm',
-      config: {},
-    },
-  ]
+    rebuildConfig: {},
+    makers: [
+        {
+            name: '@electron-forge/maker-squirrel',
+            config: {
+                certificateFile: './cert.pfx',
+                certificatePassword: process.env.CERTIFICATE_PASSWORD,
+            },
+        },
+        {
+            name: '@electron-forge/maker-zip',
+            platforms: ['darwin'],
+        },
+        {
+            name: '@electron-forge/maker-deb',
+            config: {},
+        },
+        {
+            name: '@electron-forge/maker-rpm',
+            config: {},
+        },
+    ]
 };
